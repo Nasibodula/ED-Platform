@@ -42,68 +42,6 @@ export default function AppDownload() {
             </div>
             </div>
         </section>
-
-        {/* Video Section */}
-        <section className="py-16 bg-indigo-900 text-white">
-            <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold mb-8">Explore CushLearn's Innovative Features</h2>
-            <div className="relative max-w-3xl mx-auto rounded-xl overflow-hidden">
-                <img src="/api/placeholder/800/450" alt="Feature video thumbnail" className="w-full" />
-                <button className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white text-indigo-900 rounded-full p-4 hover:bg-indigo-100 transition">
-                <Play className="w-8 h-8" />
-                </button>
-            </div>
-            <button className="mt-8 bg-white text-indigo-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition">
-                Watch More
-            </button>
-            </div>
-        </section>
-
-        {/* Blog Section */}
-        <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-800 mb-3">EdTech Bridging Gaps, Building Futures</h2>
-                <p className="text-gray-600 max-w-2xl mx-auto">Learn how our platform is transforming education in Cushitic language communities.</p>
-            </div>
-            
-            <div className="grid md:grid-cols-3 gap-8">
-                <div className="bg-white rounded-xl overflow-hidden shadow-md">
-                <img src="/api/placeholder/400/250" alt="Blog post" className="w-full" />
-                <div className="p-6">
-                    <h3 className="font-bold text-xl mb-2">CushLearn Bridging Gaps, Building Futures with WhatsApp</h3>
-                    <p className="text-gray-600 mb-4">Discover how our WhatsApp integration allows learners in remote areas to access education.</p>
-                    <button className="text-indigo-700 font-medium flex items-center hover:underline">
-                    Read More 
-                    <ChevronDown className="w-4 h-4 ml-1" />
-                    </button>
-                </div>
-                </div>
-                <div className="bg-white rounded-xl overflow-hidden shadow-md">
-                <img src="/api/placeholder/400/250" alt="Blog post" className="w-full" />
-                <div className="p-6">
-                    <h3 className="font-bold text-xl mb-2">CushLearn Supporting Student Learning Through AI Translation</h3>
-                    <p className="text-gray-600 mb-4">How our AI-powered translation tools help bridge the language gap for educational content.</p>
-                    <button className="text-indigo-700 font-medium flex items-center hover:underline">
-                    Read More 
-                    <ChevronDown className="w-4 h-4 ml-1" />
-                    </button>
-                </div>
-                </div>
-                <div className="bg-white rounded-xl overflow-hidden shadow-md">
-                <img src="/api/placeholder/400/250" alt="Blog post" className="w-full" />
-                <div className="p-6">
-                    <h3 className="font-bold text-xl mb-2">Offline Learning Features Empower Rural Communities</h3>
-                    <p className="text-gray-600 mb-4">How our offline functionality is bringing education to areas with limited connectivity.</p>
-                    <button className="text-indigo-700 font-medium flex items-center hover:underline">
-                    Read More 
-                    <ChevronDown className="w-4 h-4 ml-1" />
-                    </button>
-                </div>
-                </div>
-            </div>
-            </div>
-        </section>
     </div>
   )
 }

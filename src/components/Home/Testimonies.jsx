@@ -14,34 +14,37 @@ export default function Testimonies() {
             <div className="grid md:grid-cols-3 gap-8">
                 <div className="bg-gray-50 p-6 rounded-xl">
                 <div className="flex items-center mb-4">
-                    <img src="/api/placeholder/60/60" alt="User" className="w-12 h-12 rounded-full mr-4" />
+                    <img src="/assets/images/student.jpg" alt="User" className="w-12 h-12 rounded-full mr-4" />
                     <div>
-                    <h4 className="font-bold text-gray-800">Abdi Hassan</h4>
+                    <h4 className="font-bold text-gray-800">Amina Hassan</h4>
                     <p className="text-gray-600 text-sm">Student</p>
                     </div>
                 </div>
-                <p className="text-gray-700">"I never thought I could access quality education in my native Oromo language. CushLearn has made it possible for me to learn mathematics and science concepts without language barriers."</p>
+                <p className="text-gray-700">"I never thought I could access quality education in my native Oromo language. 
+                    CushLearn has made it possible for me to learn mathematics and science concepts without language barriers."</p>
                 </div>
                 <div className="bg-gray-50 p-6 rounded-xl">
                 <div className="flex items-center mb-4">
-                    <img src="/api/placeholder/60/60" alt="User" className="w-12 h-12 rounded-full mr-4" />
+                    <img src="/assets/images/teacher.jpg" alt="User" className="w-12 h-12 rounded-full mr-4" />
                     <div>
                     <h4 className="font-bold text-gray-800">Fatima Omar</h4>
                     <p className="text-gray-600 text-sm">Teacher</p>
                     </div>
                 </div>
-                <p className="text-gray-700">"As an educator in a rural community, CushLearn has revolutionized how I deliver content to my students. The offline capabilities mean we can learn even without reliable internet."</p>
+                <p className="text-gray-700">"As an educator in a rural community, CushLearn has revolutionized how I deliver content to my students. 
+                    The offline capabilities mean we can learn even without reliable internet."</p>
                 </div>
                 <div className="bg-gray-50 p-6 rounded-xl">
                 <div className="flex items-center mb-4">
-                    <img src="/api/placeholder/60/60" alt="User" className="w-12 h-12 rounded-full mr-4" />
+                    <img src="/assets/images/foreigner.jpg" alt="User" className="w-12 h-12 rounded-full mr-4" />
                     <div>
-                    <h4 className="font-bold text-gray-800">Ahmed Mohamed</h4>
-                    <p className="text-gray-600 text-sm">Parent</p>
+                    <h4 className="font-bold text-gray-800">Alejandro Mendez</h4>
+                    <p className="text-gray-600 text-sm">Foreigner</p>
                     </div>
-                </div>
-                <p className="text-gray-700">"My children's educational experience has been transformed with CushLearn. The multilingual support means they can learn in our native language while also improving their English skills."</p>
-                </div>
+                    </div>
+                        <p className="text-gray-700">"As a visitor to Moyale, CushLearn was invaluable. 
+                            I quickly learned key phrases that helped me communicate with locals and connect with the community during my stay."</p>
+                    </div>
             </div>
             
             <div className="mt-12 text-center">

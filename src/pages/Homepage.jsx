@@ -26,8 +26,6 @@ export default function Homepage() {
       <Faqs/>
       <CallToAction/>
       <NewsLetter/>
-
-
     </div>
   )
 }

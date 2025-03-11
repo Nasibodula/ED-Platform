@@ -13,7 +13,7 @@ export default function BlogSection() {
             
             <div className="grid md:grid-cols-3 gap-8">
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
-                <img src="/api/placeholder/400/250" alt="Blog post" className="w-full" />
+                <img src="/assets/images/BlogPost1.jpg" alt="Blog post" className="w-full" />
                 <div className="p-6">
                     <h3 className="font-bold text-xl mb-2">CushLearn Bridging Gaps, Building Futures with WhatsApp</h3>
                     <p className="text-gray-600 mb-4">Discover how our WhatsApp integration allows learners in remote areas to access education.</p>
@@ -24,7 +24,7 @@ export default function BlogSection() {
                 </div>
                 </div>
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
-                <img src="/api/placeholder/400/250" alt="Blog post" className="w-full" />
+                <img src="/assets/images/BlogPost2.jpg" alt="Blog post" className="w-full" />
                 <div className="p-6">
                     <h3 className="font-bold text-xl mb-2">CushLearn Supporting Student Learning Through AI Translation</h3>
                     <p className="text-gray-600 mb-4">How our AI-powered translation tools help bridge the language gap for educational content.</p>
@@ -35,7 +35,7 @@ export default function BlogSection() {
                 </div>
                 </div>
                 <div className="bg-white rounded-xl overflow-hidden shadow-md">
-                <img src="/api/placeholder/400/250" alt="Blog post" className="w-full" />
+                <img src="/assets/images/BlogPost3.jpg" alt="Blog post" className="w-full" />
                 <div className="p-6">
                     <h3 className="font-bold text-xl mb-2">Offline Learning Features Empower Rural Communities</h3>
                     <p className="text-gray-600 mb-4">How our offline functionality is bringing education to areas with limited connectivity.</p>
