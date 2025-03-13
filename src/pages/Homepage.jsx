@@ -9,7 +9,7 @@ import BlogSection from '../components/Home/BlogSection'
 import Testimonies from '../components/Home/Testimonies'
 import Faqs from '../components/Home/Faqs'
 import CallToAction from '../components/Home/CallToAction'
-import NewsLetter from '../components/Home/NewsLetter'
+import NewsLetter from '../components/NewsLetter'
 
 
 export default function Homepage() {
@@ -25,7 +25,6 @@ export default function Homepage() {
       <Testimonies/>
       <Faqs/>
       <CallToAction/>
-      <NewsLetter/>
     </div>
   )
 }
