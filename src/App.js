@@ -7,6 +7,7 @@ import FeaturesPage from "./pages/FeaturesPage";
 import AboutPage from "./pages/AboutPage";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
+import TranslationTool from "./pages/ChatbotPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Navbar/>
         <Routes>
           <Route path='/'  element={<Homepage/>}/>
+          <Route path="/chatbotpage" element = {<TranslationTool/>}/>
           <Route path='/featurespage'  element={<FeaturesPage/>}/>
           <Route path='/servicespage'  element={<AboutPage/>}/>
           <Route path="/get-started" element = {<LoginPage/>}/>
