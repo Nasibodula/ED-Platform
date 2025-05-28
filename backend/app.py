@@ -33,152 +33,129 @@ class BoranaTranslator:
         self.grammar_rules = {}
         self.load_dictionary_data()
     
-def parse_single_entry(self, entry_text):
-    """Parse a single dictionary entry where one English word can have multiple Borana translations"""
-    entries = []
-    entry_text = entry_text.strip()
-    
-    if not entry_text:
-        return entries
-    
-    # Extract word type
-    word_type = ""
-    if ' n.-' in entry_text:
-        word_type = "noun"
-        entry_text = entry_text.replace(' n.-', ' ')
-    elif ' v.-' in entry_text:
-        word_type = "verb" 
-        entry_text = entry_text.replace(' v.-', ' ')
-    elif ' adj.-' in entry_text:
-        word_type = "adjective"
-        entry_text = entry_text.replace(' adj.-', ' ')
-    elif ' adv.-' in entry_text:
-        word_type = "adverb"
-        entry_text = entry_text.replace(' adv.-', ' ')
-    
-    # Split English and Borana parts
-    if '-' not in entry_text:
-        return entries
+    def parse_single_entry(self, entry_text):
+        """Parse a single dictionary entry correctly"""
+        entries = []
+        entry_text = entry_text.strip()
         
-    parts = entry_text.split('-', 1)
-    if len(parts) != 2:
-        return entries
+        if not entry_text:
+            return entries
         
-    english_part = parts[0].strip()
-    borana_part = parts[1].strip()
-    
-    # Handle multiple English words (comma separated)
-    english_words = []
-    for w in english_part.split(','):
-        w = w.strip()
-        if w:
-            # Handle cases like "appear to be" which should be one phrase
-            if ' ' in w:
-                english_words.append(w.lower())
-            else:
-                english_words.append(w.lower())
-    
-    # Handle multiple Borana translations (semicolon separated)
-    borana_translations = []
-    for trans in borana_part.split(';'):
-        trans = trans.strip()
-        if trans:
-            borana_translations.append(trans)
-    
-    # Create entries for each English to Borana mapping
-    for eng_word in english_words:
-        for bor_word in borana_translations:
-            entries.append({
-                'english': eng_word,
-                'borana': bor_word,
-                'type': word_type
-            })
-    
-    return entries
-    
-def load_dictionary_data(self):
-    """Load and process dictionary data with proper handling of multiple translations"""
-    raw_data = """
-    appear to be v.- fakkaadha-kaatta
-    appear v.- futisa-tifta; futuqa-tuxxa; mulladha-latta 
-    appearance n.- ila-ilti; malkii-ni (Amh.); bifa 
-    appendix n.- mata xeerii-ni 
-    appetite n. (big)- sabdi-ni (person with ) 
-    appointment n.- qataroo-ni 
-    applaud v.- ililisa-lifta 
-    appreciate v.- jaaladha-latta 
-    approach n.- dhiaadha-aatta; gareera-ta; uga-ugita 
-    approve v.- ee'ee jedha 
-    apron n.- (for the back) habaa-ni 
-    area n.- reera-i; fullaa-ni 
-    argue v.- falama-mta; falma-mita; morka-kita; morma-mita; morooma-mta 
-    """
-    
-    # First normalize the data - ensure one entry per line
-    normalized_lines = []
-    for line in raw_data.strip().split('\n'):
-        line = line.strip()
-        if not line:
-            continue
+        # Extract word type (n.-, v.-, adj.-, adv.-)
+        word_type = ""
+        type_patterns = [
+            (' n.-', "noun"),
+            (' v.-', "verb"), 
+            (' adj.-', "adjective"),
+            (' adv.-', "adverb")
+        ]
         
-        # Handle cases where multiple entries are on one line
-        # Look for word type markers that aren't at the start
-        type_markers = [' n.-', ' v.-', ' adj.-', ' adv.-']
-        split_positions = []
-        
-        for marker in type_markers:
-            pos = line.find(marker)
-            if pos > 0:  # Not at start of line
-                split_positions.append(pos)
-        
-        if split_positions:
-            # Split the line into multiple entries
-            split_positions.sort()
-            start = 0
-            for pos in split_positions:
-                entry = line[start:pos].strip()
-                if entry:
-                    # Find which marker comes next
-                    for marker in type_markers:
-                        if line[pos:].startswith(marker):
-                            normalized_lines.append(entry + marker + line[pos+len(marker):].split(';')[0].strip())
-                            start = pos + len(marker)
-                            # Handle the rest of the translations after ;
-                            remaining = line[pos+len(marker):].split(';')[1:]
-                            if remaining:
-                                normalized_lines[-1] += ';' + ';'.join(remaining).strip()
-                            break
-            # Add the remaining part
-            if start < len(line):
-                entry = line[start:].strip()
-                if entry:
-                    normalized_lines.append(entry)
+        for pattern, type_name in type_patterns:
+            if pattern in entry_text:
+                word_type = type_name
+                # Find the position of the pattern to split correctly
+                type_pos = entry_text.find(pattern)
+                english_part = entry_text[:type_pos].strip()
+                borana_part = entry_text[type_pos + len(pattern):].strip()
+                break
         else:
-            normalized_lines.append(line)
+            # No word type found, try to split by first '-'
+            if '-' in entry_text:
+                parts = entry_text.split('-', 1)
+                english_part = parts[0].strip()
+                borana_part = parts[1].strip()
+            else:
+                return entries
+        
+        # Clean up English part (remove extra spaces)
+        english_word = english_part.strip()
+        
+        # Handle multiple Borana translations (separated by semicolons)
+        borana_translations = []
+        for translation in borana_part.split(';'):
+            translation = translation.strip()
+            if translation:
+                borana_translations.append(translation)
+        
+        # Create entries for each Borana translation
+        for borana_word in borana_translations:
+            entries.append({
+                'english': english_word.lower(),
+                'borana': borana_word,
+                'type': word_type
+            })
+        
+        return entries
     
-    # Now process each normalized line
-    for line in normalized_lines:
-        entries = self.parse_single_entry(line)
-        for entry in entries:
-            english = entry['english']
-            borana = entry['borana']
-            word_type = entry['type']
+    def load_dictionary_data(self):
+        """Load and process dictionary data with correct parsing"""
+        raw_data = """
+        appear to be v.- fakkaadha-kaatta
+        appear v.- futisa-tifta; futuqa-tuxxa; mulladha-latta 
+        appearance n.- ila-ilti; malkii-ni (Amh.); bifa 
+        appendix n.- mata xeerii-ni 
+        appetite n. (big)- sabdi-ni (person with ) 
+        appointment n.- qataroo-ni 
+        applaud v.- ililisa-lifta 
+        appreciate v.- jaaladha-latta 
+        approach n.- dhiaadha-aatta; gareera-ta; uga-ugita 
+        approve v.- ee'ee jedha 
+        apron n.- (for the back) habaa-ni 
+        area n.- reera-i; fullaa-ni 
+        argue v.- falama-mta; falma-mita; morka-kita; morma-mita; morooma-mta 
+        arm n.- harka-i; irree-ni 
+        army n.- hojjaa-ni; waraana-i 
+        around adv.- naannoo-ti; marsanii-ni 
+        arrange v.- qaba-bita; qaban-nita; saagaa-gita 
+        arrest v.- qaba-bita; hidhaa-dita 
+        arrive v.- gaadha-atta; dhufaa-ufta 
+        arrow n.- xadda-i 
+        art n.- ogummaa-i; aadaa-i 
+        article n.- barreeffama-i; meeshaa-i 
+        artificial adj.- hojii harkaa-tiin 
+        artist n.- ogeenya-i; aartistii-ni 
+        as conj.- akka-ni; yeroo-ni 
+        ash n.- daaraa-i; rakoo-ni 
+        ashamed adj.- qaanawa-i; salphaa-i 
+        ask v.- gaafadha-atta; barbaacha-atta 
+        asleep adj.- hirribaa-i; rafaa-i 
+        """
+        
+        print("Processing dictionary entries...")
+        
+        # Process each line
+        for line_num, line in enumerate(raw_data.strip().split('\n'), 1):
+            line = line.strip()
+            if not line:
+                continue
+                
+            print(f"Processing line {line_num}: {line}")
+            entries = self.parse_single_entry(line)
             
-            # Store in English->Borana dictionary
-            if english not in self.dictionary:
-                self.dictionary[english] = []
-            self.dictionary[english].append({
-                'borana': borana,
-                'type': word_type
-            })
-            
-            # Store in Borana->English dictionary
-            if borana not in self.reverse_dictionary:
-                self.reverse_dictionary[borana] = []
-            self.reverse_dictionary[borana].append({
-                'english': english,
-                'type': word_type
-            })
+            for entry in entries:
+                english = entry['english']
+                borana = entry['borana']
+                word_type = entry['type']
+                
+                print(f"  -> English: '{english}' -> Borana: '{borana}' (type: {word_type})")
+                
+                # Store in English->Borana dictionary
+                if english not in self.dictionary:
+                    self.dictionary[english] = []
+                self.dictionary[english].append({
+                    'borana': borana,
+                    'type': word_type
+                })
+                
+                # Store in Borana->English dictionary
+                if borana not in self.reverse_dictionary:
+                    self.reverse_dictionary[borana] = []
+                self.reverse_dictionary[borana].append({
+                    'english': english,
+                    'type': word_type
+                })
+        
+        print(f"\nLoaded {len(self.dictionary)} English words and {len(self.reverse_dictionary)} Borana words")
     
     def find_similar_words(self, word, dictionary, threshold=0.6):
         """Find similar words using fuzzy matching"""
@@ -205,8 +182,13 @@ def load_dictionary_data(self):
         if word_clean in dictionary:
             return dictionary[word_clean]
         
+        # Try partial matches for phrases
+        for dict_word in dictionary.keys():
+            if word_clean in dict_word or dict_word in word_clean:
+                return dictionary[dict_word]
+        
         # Fuzzy match
-        similar = self.find_similar_words(word_clean, dictionary)
+        similar = self.find_similar_words(word_clean, dictionary, threshold=0.7)
         if similar:
             best_match = similar[0][0]
             return dictionary[best_match]
@@ -248,12 +230,27 @@ def load_dictionary_data(self):
     
     def debug_dictionary(self):
         """Debug method to show what's in the dictionary"""
-        print("English Dictionary entries:")
-        for eng, translations in list(self.dictionary.items())[:10]:
-            print(f"  {eng}: {translations}")
+        print("\n" + "="*50)
+        print("DICTIONARY DEBUG INFO")
+        print("="*50)
+        
+        print("\nEnglish -> Borana Dictionary entries:")
+        count = 0
+        for eng, translations in self.dictionary.items():
+            if count < 15:  # Show more entries for debugging
+                print(f"  '{eng}' -> {translations}")
+                count += 1
+        
+        print(f"\nBorana -> English Dictionary entries (first 10):")
+        count = 0
+        for bor, translations in self.reverse_dictionary.items():
+            if count < 10:
+                print(f"  '{bor}' -> {translations}")
+                count += 1
         
         print(f"\nTotal English words: {len(self.dictionary)}")
         print(f"Total Borana words: {len(self.reverse_dictionary)}")
+        print("="*50)
 
 # Initialize translator
 translator = BoranaTranslator()
@@ -266,9 +263,15 @@ def translate():
     """API endpoint for translation"""
     try:
         data = request.get_json()
-        text = data.get('text', '')
+        text = data.get('text', '').strip()
         source_lang = data.get('source_lang', 'english')
         translation_type = data.get('type', 'word')  # 'word' or 'sentence'
+        
+        if not text:
+            return jsonify({
+                'success': False,
+                'message': 'No text provided'
+            })
         
         if translation_type == 'word':
             result = translator.translate_word(text, source_lang)
@@ -286,7 +289,7 @@ def translate():
                 
                 return jsonify({
                     'success': False,
-                    'message': 'Word not found',
+                    'message': f'Word "{text}" not found in dictionary',
                     'suggestions': suggestions,
                     'original': text
                 })
@@ -299,6 +302,7 @@ def translate():
             })
             
     except Exception as e:
+        print(f"Translation error: {str(e)}")
         return jsonify({
             'success': False,
             'error': str(e)
@@ -310,6 +314,12 @@ def get_suggestions():
     try:
         partial_word = request.args.get('q', '')
         source_lang = request.args.get('lang', 'english')
+        
+        if len(partial_word) < 2:
+            return jsonify({
+                'success': True,
+                'suggestions': []
+            })
         
         suggestions = translator.get_word_suggestions(partial_word, source_lang)
         
@@ -377,8 +387,10 @@ def health_check():
     """Health check endpoint"""
     return jsonify({
         'success': True,
-        'message': 'Borana Translator API is running'
+        'message': 'Borana Translator API is running',
+        'dictionary_loaded': len(translator.dictionary) > 0
     })
 
 if __name__ == '__main__':
+    print("Starting Borana Translator API...")
     app.run(debug=True, host='0.0.0.0', port=5000)
