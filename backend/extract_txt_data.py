@@ -20,7 +20,7 @@ except ImportError:
     print()
 
 # === CONFIG ===
-INPUT_DIR = "../datasets"  # Directory containing your input files
+INPUT_DIR = "./datasets"  # Directory containing your input files
 OUTPUT_DIR = "processed_dataset"  # Directory to save processed files
 ENG_FILE = "eng.txt"
 ORM_FILE = "orm.txt"
