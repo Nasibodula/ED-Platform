@@ -1,0 +1,15 @@
+en-om-mt-model/
+datasets/
+*.bin
+*.pt
+*.safetensors
+*.spm
+__pycache__/
+*.pyc
+*.pth
+*.pkl
+*.txt
+*.pdf
+data/
+processed_dataset/
+edenv/
