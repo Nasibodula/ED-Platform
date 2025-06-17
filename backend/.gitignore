@@ -12,4 +12,6 @@ __pycache__/
 data/
 processed_dataset/
 edenv/
-../datasets/
+datasets/
+**/datasets/
+**/datasets/
