@@ -1,5 +1,4 @@
 en-om-mt-model/
-datasets/
 *.bin
 *.pt
 *.safetensors
@@ -13,3 +12,4 @@ __pycache__/
 data/
 processed_dataset/
 edenv/
+../datasets/
