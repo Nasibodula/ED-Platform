@@ -34,7 +34,7 @@ print(f"Training examples: {len(data['train'])}")
 print(f"Validation examples: {len(data['validation'])}")
 print(f"Sample training example: {data['train'][0]}")
 
-# ✅ 2. Load pre-trained MarianMT model & tokenizer
+#  2. Load pre-trained MarianMT model & tokenizer
 model_name = "Helsinki-NLP/opus-mt-en-ROMANCE"  # Base model for fine-tuning
 tokenizer = MarianTokenizer.from_pretrained(model_name)
 model = MarianMTModel.from_pretrained(model_name)
@@ -46,7 +46,7 @@ model = MarianMTModel.from_pretrained(model_name)
 print(f"Model loaded: {model_name}")
 print(f"Tokenizer vocab size: {len(tokenizer)}")
 
-# ✅ 3. Preprocessing function
+#  3. Preprocessing function
 def preprocess_function(examples, max_length=128):
     """Preprocess the translation examples"""
     # Extract source and target texts
@@ -89,7 +89,7 @@ tokenized_data = data.map(
 
 print("Data preprocessing completed!")
 
-# ✅ 4. Training arguments
+#  4. Training arguments
 training_args = Seq2SeqTrainingArguments(
     output_dir="./en-om-mt-model",
     eval_strategy="epoch",  # Changed from evaluation_strategy
@@ -113,14 +113,14 @@ training_args = Seq2SeqTrainingArguments(
     report_to=[],  # Disable wandb and other reporting
 )
 
-# ✅ 5. Data collator
+#  5. Data collator
 data_collator = DataCollatorForSeq2Seq(
     tokenizer=tokenizer,
     model=model,
     padding=True
 )
 
-# ✅ 6. Initialize trainer
+#  6. Initialize trainer
 trainer = Seq2SeqTrainer(
     model=model,
     args=training_args,
@@ -132,7 +132,7 @@ trainer = Seq2SeqTrainer(
 
 print("Trainer initialized. Starting training...")
 
-# ✅ 7. Train the model
+#  7. Train the model
 try:
     trainer.train()
     print("Training completed successfully!")
@@ -141,13 +141,13 @@ except Exception as e:
     # Save current state even if training fails
     trainer.save_model("./en-om-model-checkpoint")
 
-# ✅ 8. Save the final model
+#  8. Save the final model
 print("Saving model...")
 model.save_pretrained("./en-om-model")
 tokenizer.save_pretrained("./en-om-model")
 print("Model saved successfully!")
 
-# ✅ 9. Test the model with a sample translation
+#  9. Test the model with a sample translation
 def test_translation(text, model_path="./en-om-model"):
     """Test the trained model with a sample text"""
     try:

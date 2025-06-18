@@ -9,9 +9,5 @@ __pycache__/
 *.pkl
 *.txt
 *.pdf
-data/
-processed_dataset/
 edenv/
-datasets/
-**/datasets/
-**/datasets/
+
