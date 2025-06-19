@@ -8,7 +8,7 @@ export default function AppDownload() {
             <div className="container mx-auto px-4">
             <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-gray-800 mb-3">Schooling Reinvented</h2>
-                <h3 className="text-xl text-indigo-700 mb-4">Download Our Mobile App Instantly!</h3>
+                <h3 className="text-xl text-teal-700 mb-4">Download Our Mobile App Instantly!</h3>
                 <p className="text-gray-600 max-w-2xl mx-auto">Experience seamless learning in Cushitic languages with our comprehensive mobile application. Download now for iOS and Android.</p>
             </div>
             

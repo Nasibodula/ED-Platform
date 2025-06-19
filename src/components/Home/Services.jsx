@@ -13,8 +13,8 @@ export default function Services() {
             
             <div className="grid md:grid-cols-3 gap-6">
                 <div className="bg-white p-6 rounded-xl shadow-md flex items-start">
-                <div className="bg-indigo-100 p-3 rounded-full mr-4">
-                    <MessageSquare className="w-6 h-6 text-indigo-600" />
+                <div className="bg-teal-100 p-3 rounded-full mr-4">
+                    <MessageSquare className="w-6 h-6 text-teal-600" />
                 </div>
                 <div>
                     <h3 className="font-bold text-gray-800 mb-2">WhatsApp</h3>
@@ -22,8 +22,8 @@ export default function Services() {
                 </div>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-md flex items-start">
-                <div className="bg-indigo-100 p-3 rounded-full mr-4">
-                    <Globe className="w-6 h-6 text-indigo-600" />
+                <div className="bg-teal-100 p-3 rounded-full mr-4">
+                    <Globe className="w-6 h-6 text-teal-600" />
                 </div>
                 <div>
                     <h3 className="font-bold text-gray-800 mb-2">Remote</h3>
@@ -31,8 +31,8 @@ export default function Services() {
                 </div>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-md flex items-start">
-                <div className="bg-indigo-100 p-3 rounded-full mr-4">
-                    <MessageSquare className="w-6 h-6 text-indigo-600" />
+                <div className="bg-teal-100 p-3 rounded-full mr-4">
+                    <MessageSquare className="w-6 h-6 text-teal-600" />
                 </div>
                 <div>
                     <h3 className="font-bold text-gray-800 mb-2">Talk</h3>
@@ -40,8 +40,8 @@ export default function Services() {
                 </div>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-md flex items-start">
-                <div className="bg-indigo-100 p-3 rounded-full mr-4">
-                    <Mail className="w-6 h-6 text-indigo-600" />
+                <div className="bg-teal-100 p-3 rounded-full mr-4">
+                    <Mail className="w-6 h-6 text-teal-600" />
                 </div>
                 <div>
                     <h3 className="font-bold text-gray-800 mb-2">Online Payment</h3>
@@ -49,8 +49,8 @@ export default function Services() {
                 </div>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-md flex items-start">
-                <div className="bg-indigo-100 p-3 rounded-full mr-4">
-                    <Award className="w-6 h-6 text-indigo-600" />
+                <div className="bg-teal-100 p-3 rounded-full mr-4">
+                    <Award className="w-6 h-6 text-teal-600" />
                 </div>
                 <div>
                     <h3 className="font-bold text-gray-800 mb-2">Recording</h3>
@@ -58,8 +58,8 @@ export default function Services() {
                 </div>
                 </div>
                 <div className="bg-white p-6 rounded-xl shadow-md flex items-start">
-                <div className="bg-indigo-100 p-3 rounded-full mr-4">
-                    <PhoneCall className="w-6 h-6 text-indigo-600" />
+                <div className="bg-teal-100 p-3 rounded-full mr-4">
+                    <PhoneCall className="w-6 h-6 text-teal-600" />
                 </div>
                 <div>
                     <h3 className="font-bold text-gray-800 mb-2">Virtual Chat</h3>
@@ -69,7 +69,7 @@ export default function Services() {
             </div>
             
             <div className="text-center mt-8">
-                <button className="bg-indigo-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition">
+                <button className="bg-teal-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition">
                 Contact Us Now
                 </button>
             </div>

@@ -25,7 +25,7 @@ export default function Testimonies() {
                 </div>
                 <div className="bg-gray-50 p-6 rounded-xl">
                 <div className="flex items-center mb-4">
-                    <img src="/assets/images/teacher.jpg" alt="User" className="w-12 h-12 rounded-full mr-4" />
+                    <img src="/assets/images/profile4.jpg" alt="User" className="w-12 h-12 rounded-full mr-4" />
                     <div>
                     <h4 className="font-bold text-gray-800">Fatima Omar</h4>
                     <p className="text-gray-600 text-sm">Teacher</p>
@@ -48,7 +48,7 @@ export default function Testimonies() {
             </div>
             
             <div className="mt-12 text-center">
-                <button className="bg-indigo-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition">
+                <button className="bg-teal-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition">
                 Read More Success Stories
                 </button>
             </div>

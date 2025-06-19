@@ -15,7 +15,7 @@ export default function PlatformFeatures() {
                 <div>
                 <h3 className="text-2xl font-bold text-gray-800 mb-4">Dashboard</h3>
                 <p className="text-gray-600 mb-6">Track your learning progress at a glance. Personalized recommendations based on your education goals and easily access your courses offline.</p>
-                <button className="text-indigo-700 font-medium flex items-center hover:underline">
+                <button className="text-teal-700 font-medium flex items-center hover:underline">
                     Learn More 
                     <ChevronDown className="w-4 h-4 ml-1" />
                 </button>
@@ -30,7 +30,7 @@ export default function PlatformFeatures() {
                 <h3 className="text-xl font-bold text-gray-800 mb-3">Mobile View</h3>
                 <p className="text-gray-600 mb-4">Learn on the go with our responsive mobile design. Download content for offline access on any device.</p>
                 <img src="/api/placeholder/320/200" alt="Mobile interface" className="rounded-lg w-full mb-4" />
-                <button className="text-indigo-700 font-medium flex items-center hover:underline">
+                <button className="text-teal-700 font-medium flex items-center hover:underline">
                     Learn More 
                     <ChevronDown className="w-4 h-4 ml-1" />
                 </button>
@@ -39,7 +39,7 @@ export default function PlatformFeatures() {
                 <h3 className="text-xl font-bold text-gray-800 mb-3">Analytics</h3>
                 <p className="text-gray-600 mb-4">Track your progress with detailed analytics. Set goals and measure your performance against benchmarks.</p>
                 <img src="/api/placeholder/320/200" alt="Analytics interface" className="rounded-lg w-full mb-4" />
-                <button className="text-indigo-700 font-medium flex items-center hover:underline">
+                <button className="text-teal-700 font-medium flex items-center hover:underline">
                     Learn More 
                     <ChevronDown className="w-4 h-4 ml-1" />
                 </button>
@@ -48,7 +48,7 @@ export default function PlatformFeatures() {
                 <h3 className="text-xl font-bold text-gray-800 mb-3">Courses</h3>
                 <p className="text-gray-600 mb-4">Explore our extensive library of courses in multiple languages tailored to Cushitic communities.</p>
                 <img src="/api/placeholder/320/200" alt="Courses interface" className="rounded-lg w-full mb-4" />
-                <button className="text-indigo-700 font-medium flex items-center hover:underline">
+                <button className="text-teal-700 font-medium flex items-center hover:underline">
                     Learn More 
                     <ChevronDown className="w-4 h-4 ml-1" />
                 </button>

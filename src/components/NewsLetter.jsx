@@ -14,9 +14,9 @@ export default function NewsLetter() {
                 <input 
                     type="email" 
                     placeholder="Enter your email" 
-                    className="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                    className="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-600"
                 />
-                <button className="bg-indigo-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-indigo-700 transition">
+                <button className="bg-teal-800 text-white px-6 py-3 rounded-lg font-medium hover:bg-teal-700 transition">
                     Subscribe
                 </button>
                 </div>
