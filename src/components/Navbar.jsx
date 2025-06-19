@@ -9,7 +9,7 @@ export default function Navbar() {
       <header className="bg-white shadow-md sticky top-0 z-50">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-indigo-800">CushLearn</h1>
+            <h1 className="text-2xl font-bold text-teal-600">CushLearn</h1>
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
@@ -23,7 +23,7 @@ export default function Navbar() {
           
           <div className="hidden md:block">
             <Link to="/get-started">
-              <button className="bg-indigo-800 text-white px-4 py-2 rounded-md font-medium hover:bg-indigo-700 transition">
+              <button className="bg-teal-600 text-white px-4 py-2 rounded-md font-medium hover:bg-indigo-700 transition">
                 Get Started
               </button>
             </Link>
