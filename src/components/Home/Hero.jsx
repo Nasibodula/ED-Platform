@@ -1,6 +1,51 @@
-import React from 'react';
+import React ,{ useState, useRef, useEffect } from "react";
+import { Play, Pause, SkipBack, SkipForward } from 'lucide-react';
 
 export default function Hero() {
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const audioRef = useRef(null);
+
+    // Simulate audio duration for demo
+    useEffect(() => {
+        setDuration(180); 
+    }, []);
+
+    const togglePlayPause = () => {
+        setIsPlaying(!isPlaying);
+    };
+
+    const handleProgressClick = (e) => {
+        const progressBar = e.currentTarget;
+        const rect = progressBar.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const width = rect.width;
+        const percentage = clickX / width;
+        const newTime = percentage * duration;
+        setCurrentTime(newTime);
+    };
+
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    };
+
+    const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
+
+    // Simulate time progress when playing
+    useEffect(() => {
+        let interval = null;
+        if (isPlaying && currentTime < duration) {
+        interval = setInterval(() => {
+            setCurrentTime(currentTime => currentTime + 1);
+        }, 1000);
+        } else if (currentTime >= duration) {
+        setIsPlaying(false);
+        }
+        return () => clearInterval(interval);
+    }, [isPlaying, currentTime, duration]);
   return (
     <div className="background min-h-screen relative overflow-hidden">
       {/* Main Content */}
@@ -33,14 +78,14 @@ export default function Hero() {
             {/* Stats */}
             <div className="flex items-center space-x-4 pt-8">
               <div className="flex -space-x-2">
-                <div className="w-10 h-10 bg-orange-400 rounded-full border-2 border-white flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">👤</span>
+                <div className="">
+                  <img className='w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center' src='/assets/images/profile3.jpg' alt='img missing'/>
                 </div>
-                <div className="w-10 h-10 bg-blue-400 rounded-full border-2 border-white flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">👤</span>
+                <div className="">
+                  <img className='w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center' src='/assets/images/profile4.jpg' alt='img missing'/>
                 </div>
-                <div className="w-10 h-10 bg-pink-400 rounded-full border-2 border-white flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">+</span>
+                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                  <span className="text-black text-xs font-bold">100K+</span>
                 </div>
               </div>
               <div className="text-white">
@@ -51,66 +96,63 @@ export default function Hero() {
           </div>
 
           {/* Right Content - Floating Cards */}
-          <div className="relative h-96 lg:h-[500px]">
-            {/* Main Card - Woman with laptop */}
-            <div className="absolute top-0 left-8 w-64 h-80 bg-white rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
-              <div className="p-6 h-full flex flex-col">
-                <div className="flex-1 bg-gray-100 rounded-xl mb-4 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="bg-white rounded-lg p-2">
-                      <div className="w-8 h-8 bg-teal-500 rounded-full mb-2"></div>
-                      <div className="h-2 bg-gray-200 rounded mb-1"></div>
-                      <div className="h-2 bg-gray-200 rounded w-3/4"></div>
+            <div className="relative h-96 lg:h-[500px]">
+                    {/* Main Card - Woman with laptop */}
+                <div className="w-64 h-80 top-20 bg-white bg-opacity-30 rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 relative overflow-hidden">
+                    <img  className="absolute inset-0 h-full w-full object-cover rounded-2xl" 
+                        src=" assets/images/profile5.png"
+                        alt="profile" />
+                    
+                    {/* Audio Player at Bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-95 backdrop-blur-sm rounded-b-2xl p-3">
+                        <div className="mb-3">
+                        <h2 className="text-sm font-semibold text-teal-600">English-Oromo</h2>
+                        <p className="text-xs text-gray-500 mt-1">4months</p>
+                        </div>
+                    {/* Progress Bar */}
+                    <div className="mb-2">
+                    <div  className="w-full h-1 bg-gray-200 rounded-full cursor-pointer relative"
+                        onClick={handleProgressClick}>
+                        <div className="h-full bg-teal-600 rounded-full relative"
+                        style={{ width: `${progressPercentage}%` }} >
+                        <div className="absolute right-0 top-1/2 transform translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-teal-600 rounded-full shadow-md"></div>
+                        </div>
                     </div>
-                  </div>
-                  {/* Simulated person */}
-                  <div className="absolute top-8 right-8 w-16 h-16 bg-gray-600 rounded-full"></div>
-                  <div className="absolute top-12 right-12 w-8 h-8 bg-white rounded-full opacity-80"></div>
+                    
+                    {/* Time Display */}
+                    <div className="flex justify-between text-xs text-gray-500 mt-2">
+                        <span>10:20:30</span>
+                        <span>20 min</span>
+                    </div>
+                    </div>
+
+                    {/* Control Buttons */}
+                    <div className="flex items-center justify-center space-x-4">
+                    <button className="p-1 hover:bg-gray-100 rounded-full transition-colors">
+                        <SkipBack size={16} className="text-gray-600" />
+                    </button> 
+                    <button onClick={togglePlayPause} className="p-2 bg-teal-600 hover:bg-teal-700 rounded-full transition-colors">
+                        {isPlaying ? (
+                        <Pause size={18} className="text-white" />
+                        ) : (
+                        <Play size={18} className="text-white ml-0.5" />
+                        )}
+                    </button>     
+                    <button className="p-1 hover:bg-gray-100 rounded-full transition-colors">
+                        <SkipForward size={16} className="text-gray-600" />
+                    </button>
+                    </div>
                 </div>
-                <div className="text-center">
-                  <div className="font-semibold text-gray-800">Sarah Johnson</div>
-                  <div className="text-sm text-gray-500">UX Designer</div>
-                </div>
-              </div>
             </div>
 
             {/* Top Right Card */}
-            <div className="absolute top-8 right-0 w-48 h-56 bg-white rounded-2xl shadow-xl transform -rotate-2 hover:rotate-0 transition-transform duration-500">
-              <div className="p-4 h-full flex flex-col">
-                <div className="flex-1 bg-gray-100 rounded-xl mb-3 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-200 to-blue-300"></div>
-                  <div className="absolute top-3 left-3 w-10 h-10 bg-blue-600 rounded-full"></div>
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <div className="h-1.5 bg-white rounded mb-1 opacity-80"></div>
-                    <div className="h-1.5 bg-white rounded w-2/3 opacity-60"></div>
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="font-semibold text-gray-800 text-sm">Mike Chen</div>
-                  <div className="text-xs text-gray-500">Developer</div>
-                </div>
-              </div>
+            <div className="absolute top-8 right-0 w-48 h-56  rounded-2xl shadow-xl transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+                <img className='h-full rounded-2xl' src='/assets/images/profile8.jpg' alt='profile6'/>
             </div>
 
             {/* Bottom Right Card */}
             <div className="absolute bottom-0 right-12 w-44 h-52 bg-white rounded-2xl shadow-xl transform rotate-1 hover:rotate-0 transition-transform duration-500">
-              <div className="p-4 h-full flex flex-col">
-                <div className="flex-1 bg-gray-100 rounded-xl mb-3 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-200 to-green-300"></div>
-                  <div className="absolute top-4 right-4 w-8 h-8 bg-green-600 rounded-full"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="bg-white rounded-lg p-2 opacity-90">
-                      <div className="h-1 bg-gray-300 rounded mb-1"></div>
-                      <div className="h-1 bg-gray-300 rounded w-1/2"></div>
-                    </div>
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="font-semibold text-gray-800 text-sm">Alex Rivera</div>
-                  <div className="text-xs text-gray-500">Data Analyst</div>
-                </div>
-              </div>
+                <img className='h-full rounded-2xl' src='/assets/images/profile6.jpg' alt='profile7'/>
             </div>
 
             {/* Background decorative elements */}
@@ -128,3 +170,4 @@ export default function Hero() {
     </div>
   );
 }
+
