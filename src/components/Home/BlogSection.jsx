@@ -17,7 +17,7 @@ export default function BlogSection() {
                 <div className="p-6">
                     <h3 className="font-bold text-xl mb-2">CushLearn Bridging Gaps, Building Futures with WhatsApp</h3>
                     <p className="text-gray-600 mb-4">Discover how our WhatsApp integration allows learners in remote areas to access education.</p>
-                    <button className="text-indigo-700 font-medium flex items-center hover:underline">
+                    <button className="text-teal-700 font-medium flex items-center hover:underline">
                     Read More 
                     <ChevronDown className="w-4 h-4 ml-1" />
                     </button>
@@ -28,7 +28,7 @@ export default function BlogSection() {
                 <div className="p-6">
                     <h3 className="font-bold text-xl mb-2">CushLearn Supporting Student Learning Through AI Translation</h3>
                     <p className="text-gray-600 mb-4">How our AI-powered translation tools help bridge the language gap for educational content.</p>
-                    <button className="text-indigo-700 font-medium flex items-center hover:underline">
+                    <button className="text-teal-700 font-medium flex items-center hover:underline">
                     Read More 
                     <ChevronDown className="w-4 h-4 ml-1" />
                     </button>
@@ -39,7 +39,7 @@ export default function BlogSection() {
                 <div className="p-6">
                     <h3 className="font-bold text-xl mb-2">Offline Learning Features Empower Rural Communities</h3>
                     <p className="text-gray-600 mb-4">How our offline functionality is bringing education to areas with limited connectivity.</p>
-                    <button className="text-indigo-700 font-medium flex items-center hover:underline">
+                    <button className="text-teal-700 font-medium flex items-center hover:underline">
                     Read More 
                     <ChevronDown className="w-4 h-4 ml-1" />
                     </button>

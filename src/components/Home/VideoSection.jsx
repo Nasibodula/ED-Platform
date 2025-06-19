@@ -4,7 +4,7 @@ import {Play} from 'lucide-react';
 export default function VideoSection() {
   return (
     <div>
-        <section className="py-16 bg-indigo-900 text-white">
+        <section className="py-16 bg-teal-900 text-white">
         <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-8">Explore CushLearn's Innovative Features</h2>
             <div className="relative max-w-3xl mx-auto rounded-xl overflow-hidden">
@@ -19,7 +19,7 @@ export default function VideoSection() {
                 className="w-full"
               ></iframe>
             </div>
-            <button className="mt-8 bg-white text-indigo-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition">
+            <button className="mt-8 bg-white text-teal-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition">
             Watch More
             </button>
         </div>
