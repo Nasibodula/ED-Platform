@@ -147,7 +147,7 @@ export default function Hero() {
 
             {/* Top Right Card */}
             <div className="absolute top-8 right-0 w-48 h-56  rounded-2xl shadow-xl transform -rotate-2 hover:rotate-0 transition-transform duration-500">
-                <img className='h-full rounded-2xl' src='/assets/images/profile8.jpg' alt='profile6'/>
+                <img className='h-full rounded-2xl' src='/assets/images/profile7.jpg' alt='profile6'/>
             </div>
 
             {/* Bottom Right Card */}
