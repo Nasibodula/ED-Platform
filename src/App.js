@@ -9,6 +9,7 @@ import AboutPage from "./pages/AboutPage";
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import TranslationTool from "./pages/ChatbotPage";
+import Courses from "./pages/courses";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path='/servicespage'  element={<AboutPage/>}/>
           <Route path="/get-started" element = {<LoginPage/>}/>
           <Route path="/dashboard" element = {<Dashboard/>}/>
+          <Route path="/courses" element = {<Courses/>}/>
         </Routes>
         <NewsLetter/>
         <Footer/>
