@@ -240,28 +240,6 @@ export const oromoCourses = [
       }
     ]
   },
-  {
-    id: 3,
-    title: 'Barnoota Ammayyaa',
-    category: 'education',
-    description: 'Teeknooloojii fi tooftaa haaraa',
-    instructor: 'Dr. Abeebaa Wayyanaa',
-    duration: '10',
-    students: '678',
-    lessons: '15',
-    level: 'advanced',
-    rating: 4.7,
-    thumbnail: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=300&h=200&fit=crop',
-    videos: [
-      {
-        id: 'v7',
-        title: 'Teeknooloojii Barnoota',
-        duration: '30:15',
-        youtubeUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-        description: 'Teeknooloojii haaraa barnoota keessatti'
-      }
-    ]
-  }
 ];
 
 // Somali courses data with nested lessons
@@ -385,12 +363,12 @@ export const somaliCourses = [
   }
 ];
 
-// Helper function to get courses by language
+//function to get courses by language
 export const getCoursesByLanguage = (language) => {
   return language === 'oromo' ? oromoCourses : somaliCourses;
 };
 
-// Helper function to find a course by ID
+//function to find a course by ID
 export const getCourseById = (courseId, language) => {
   const courses = getCoursesByLanguage(language);
   return courses.find(course => course.id === parseInt(courseId));
