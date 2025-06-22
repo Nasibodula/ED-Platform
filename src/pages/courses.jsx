@@ -5,7 +5,7 @@ import { translations, getCoursesByLanguage, getCourseById, getYouTubeVideoId } 
 const CoursesSection = () => {
   const [currentLanguage, setCurrentLanguage] = useState('oromo');
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [currentView, setCurrentView] = useState('courses'); // 'courses' or 'lessons'
+  const [currentView, setCurrentView] = useState('courses'); 
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [currentVideo, setCurrentVideo] = useState(null);
 
@@ -19,7 +19,7 @@ const CoursesSection = () => {
   const handleStartCourse = (courseId) => {
     const course = getCourseById(courseId, currentLanguage);
     setSelectedCourse(course);
-    setCurrentVideo(course.videos[0]); // Start with first video
+    setCurrentVideo(course.videos[0]); 
     setCurrentView('lessons');
   };
 
@@ -34,8 +34,8 @@ const CoursesSection = () => {
       onClick={() => setSelectedCategory(category)}
       className={`px-6 py-3 rounded-full transition-all duration-300 font-medium ${
         selectedCategory === category
-          ? 'bg-blue-600 text-white shadow-lg transform scale-105'
-          : 'bg-white text-gray-600 hover:bg-blue-50 hover:text-blue-600 border border-gray-200'
+          ? 'bg-teal-600 text-white shadow-lg transform scale-105'
+          : 'bg-white text-gray-600 hover:bg-blue-50 hover:text-teal-600 border border-gray-200'
       }`}
     >
       {label}
@@ -80,7 +80,7 @@ const CoursesSection = () => {
           {course.description}
         </p>
         
-        <p className="text-sm text-blue-600 mb-4 font-medium">
+        <p className="text-sm text-teal-600 mb-4 font-medium">
           {course.instructor}
         </p>
         
@@ -97,7 +97,7 @@ const CoursesSection = () => {
         
         <button 
           onClick={() => handleStartCourse(course.id)}
-          className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-medium flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-r from-teal-600 to-teal-700 text-white py-3 px-4 rounded-lg hover:from-teal-700 hover:to-teal-800 transition-all duration-300 font-medium flex items-center justify-center gap-2"
         >
           {t.courseDetails.startCourse}
           <ChevronRight className="w-4 h-4" />
@@ -128,7 +128,7 @@ const CoursesSection = () => {
     <div 
       onClick={onClick}
       className={`p-4 rounded-lg cursor-pointer transition-all duration-300 ${
-        isActive ? 'bg-blue-100 border-l-4 border-blue-600' : 'bg-white hover:bg-gray-50'
+        isActive ? 'bg-teal-100 border-l-4 border-teal-600' : 'bg-white hover:bg-gray-50'
       }`}
     >
       <div className="flex items-start gap-3">
@@ -136,7 +136,7 @@ const CoursesSection = () => {
           <Play className="w-4 h-4 text-gray-600" />
         </div>
         <div className="flex-1">
-          <h4 className={`font-medium text-sm ${isActive ? 'text-blue-900' : 'text-gray-900'}`}>
+          <h4 className={`font-medium text-sm ${isActive ? 'text-teal-900' : 'text-gray-900'}`}>
             {video.title}
           </h4>
           <p className="text-xs text-gray-600 mt-1">{video.duration}</p>
@@ -151,7 +151,7 @@ const CoursesSection = () => {
       <div className="mb-6">
         <button
           onClick={handleBackToCourses}
-          className="flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors"
+          className="flex items-center gap-2 text-teal-600 hover:text-teal-700 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           {t.courseDetails.backToCourses}
@@ -252,15 +252,11 @@ const CoursesSection = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-purple-50">
       {/* Language Toggle */}
-      <div className="sticky top-0 z-50 bg-white bg-opacity-95 backdrop-blur-sm border-b border-gray-200">
+      <div className=" top-0 z-50  bg-opacity-95 backdrop-blur-sm ">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <Globe className="w-6 h-6 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-900">Cushite Education</h1>
-            </div>
             <div className="flex bg-gray-100 rounded-full p-1">
               <button
                 onClick={() => {
@@ -269,8 +265,8 @@ const CoursesSection = () => {
                 }}
                 className={`px-6 py-2 rounded-full transition-all duration-300 font-medium ${
                   currentLanguage === 'oromo'
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'text-gray-600 hover:text-blue-600'
+                    ? 'bg-teal-600 text-white shadow-md'
+                    : 'text-gray-600 hover:text-teal-600'
                 }`}
               >
                 Afaan Oromoo
@@ -282,8 +278,8 @@ const CoursesSection = () => {
                 }}
                 className={`px-6 py-2 rounded-full transition-all duration-300 font-medium ${
                   currentLanguage === 'somali'
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'text-gray-600 hover:text-blue-600'
+                    ? 'bg-teal-600 text-white shadow-md'
+                    : 'text-gray-600 hover:text-teal-600'
                 }`}
               >
                 Af-Soomaali
