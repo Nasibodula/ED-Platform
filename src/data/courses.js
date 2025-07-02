@@ -240,6 +240,28 @@ export const oromoCourses = [
       }
     ]
   },
+  {
+    id: 3,
+    title: 'Afaan Oromoo intermediate',
+    category: 'language',
+    description: 'Hima walxaxaa fi mata duree',
+    instructor: 'Add. Caaltuu Sanbatuu',
+    duration: '12',
+    students: '856',
+    lessons: '18',
+    level: 'intermediate',
+    rating: 4.9,
+    thumbnail: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=300&h=200&fit=crop',
+    videos: [
+      {
+        id: 'v1',
+        title: 'Seerluga Afaan Oromoo',
+        duration: '5:29',
+        youtubeUrl: 'https://www.youtube.com/watch?v=cQ4_lYFJUCs&list=PLiGk7GTSSgU-UJO1o_lD4EkqFf-eCJFm8',
+        description: 'Seerluga afaan Oromoo barnoota'
+      },
+    ]
+  }
 ];
 
 // Somali courses data with nested lessons
@@ -360,6 +382,9 @@ export const somaliCourses = [
         description: 'Naxwaha iyo xeerarka af-Soomaaliga'
       }
     ]
+  },
+  {
+    
   }
 ];
 

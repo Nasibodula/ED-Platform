@@ -31,7 +31,7 @@ function LoginPage() {
       
       {/* Translucent overlay */}
       <div 
-        className="absolute inset-0 z-10 bg-indigo-950 opacity-85"
+        className="absolute inset-0 z-10 bg-teal-950 opacity-85"
       ></div>
       
       {/* Content layer */}
@@ -78,7 +78,7 @@ function LoginPage() {
             </form>
             <div className="text-center mt-6">
               <button 
-                className="border border-white text-white py-2 px-4 rounded hover:bg-white hover:text-indigo-950 transition-colors"
+                className="border border-white text-white py-2 px-4 rounded hover:bg-white hover:text-teal-950 transition-colors"
                 onClick={toggleForm}
               >
                 CREATE NEW ACCOUNT
@@ -140,7 +140,7 @@ function LoginPage() {
             </form>
             <div className="text-center mt-6">
               <button 
-                className="border border-white text-white py-2 px-4 rounded hover:bg-white hover:text-indigo-950 transition-colors"
+                className="border border-white text-white py-2 px-4 rounded hover:bg-white hover:text-teal-950 transition-colors"
                 onClick={toggleForm}
               >
                 BACK TO SIGN IN
