@@ -1,179 +1,48 @@
-// import React, { useState } from 'react';
-// import { User, Book, BookOpen, MessageSquare, Download } from 'lucide-react';
-// import Sidebar from '../components/Sidebar';
-
-// const Dashboard = () => {
-//   const [userName, setUserName] = useState('Abdirahman');
-//   const [sidebarOpen, setSidebarOpen] = useState(true);
-  
-//   const toggleSidebar = () => {
-//     setSidebarOpen(!sidebarOpen);
-//   };
-  
-//   return (
-//     <div className="flex h-screen bg-gray-100">
-//       {/* Sidebar */}
-//       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-      
-//       {/* Main Content */}
-//       <div className={`flex-1 ${sidebarOpen ? 'ml-64' : 'ml-20'} transition-all duration-300`}>
-//         {/* Header */}
-//         <header className="bg-teal-950 text-white py-6 px-8">
-//           <h1 className="text-3xl font-bold">Welcome, {userName}!</h1>
-//         </header>
-        
-//         {/* Dashboard Content */}
-//         <div className="p-8">
-//           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-//             {/* Learning Advisor */}
-//             <div className="bg-white rounded-lg shadow-md p-6 col-span-2">
-//               <h2 className="text-xl font-semibold text-teal-950 mb-4">My Language Advisor</h2>
-//               <div className="flex flex-col md:flex-row">
-//                 <div className="w-full md:w-1/3 mb-4 md:mb-0">
-//                   <div className="bg-gray-200 rounded-lg w-full h-40 flex items-center justify-center">
-//                     <User size={64} className="text-gray-400" />
-//                   </div>
-//                 </div>
-//                 <div className="w-full md:w-2/3 md:pl-6">
-//                   <h3 className="text-lg font-medium text-teal-950">Fatima Hassan</h3>
-//                   <p className="text-gray-600 mt-2">+251 912 345 678</p>
-//                   <p className="text-gray-600">fatima@cushilearn.org</p>
-                  
-//                   <button onClick={() => {}} className="mt-4 bg-teal-950 text-white py-2 px-4 rounded flex items-center justify-center">
-//                     <MessageSquare size={18} className="mr-2" />
-//                     SEND MESSAGE
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-            
-//             {/* Learning Progress */}
-//             <div className="bg-white rounded-lg shadow-md p-6">
-//               <h2 className="text-xl font-semibold text-teal-950 mb-4">My Progress</h2>
-//               <div className="space-y-4">
-//                 <div>
-//                   <div className="flex justify-between mb-1">
-//                     <span className="text-sm font-medium text-teal-950">Oromo Basics</span>
-//                     <span className="text-sm font-medium text-teal-950">75%</span>
-//                   </div>
-//                   <div className="w-full bg-gray-200 rounded-full h-2">
-//                     <div className="bg-green-500 h-2 rounded-full" style={{ width: '75%' }}></div>
-//                   </div>
-//                 </div>
-                
-//                 <div>
-//                   <div className="flex justify-between mb-1">
-//                     <span className="text-sm font-medium text-teal-950">Mathematics</span>
-//                     <span className="text-sm font-medium text-teal-950">45%</span>
-//                   </div>
-//                   <div className="w-full bg-gray-200 rounded-full h-2">
-//                     <div className="bg-blue-500 h-2 rounded-full" style={{ width: '45%' }}></div>
-//                   </div>
-//                 </div>
-                
-//                 <div>
-//                   <div className="flex justify-between mb-1">
-//                     <span className="text-sm font-medium text-teal-950">Science</span>
-//                     <span className="text-sm font-medium text-teal-950">90%</span>
-//                   </div>
-//                   <div className="w-full bg-gray-200 rounded-full h-2">
-//                     <div className="bg-purple-500 h-2 rounded-full" style={{ width: '90%' }}></div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-          
-//           {/* Recent Courses and App Download */}
-//           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-//             {/* Recent Courses */}
-//             <div className="bg-white rounded-lg shadow-md p-6 col-span-2">
-//               <h2 className="text-xl font-semibold text-teal-950 mb-4">Recently Accessed</h2>
-//               <div className="space-y-4">
-//                 <div className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-//                   <div className="bg-teal-100 p-3 rounded-lg mr-4">
-//                     <BookOpen size={24} className="text-teal-950" />
-//                   </div>
-//                   <div>
-//                     <h3 className="font-medium text-teal-950">Oromo Vocabulary</h3>
-//                     <p className="text-sm text-gray-500">Last accessed: Today</p>
-//                   </div>
-//                   <button onClick={() => {}} className="ml-auto bg-teal-100 text-teal-950 p-2 rounded-full">
-//                     <Book size={16} />
-//                   </button>
-//                 </div>
-                
-//                 <div className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-//                   <div className="bg-purple-100 p-3 rounded-lg mr-4">
-//                     <BookOpen size={24} className="text-purple-700" />
-//                   </div>
-//                   <div>
-//                     <h3 className="font-medium text-teal-950">Basic Mathematics</h3>
-//                     <p className="text-sm text-gray-500">Last accessed: Yesterday</p>
-//                   </div>
-//                   <button onClick={() => {}} className="ml-auto bg-teal-100 text-teal-950 p-2 rounded-full">
-//                     <Book size={16} />
-//                   </button>
-//                 </div>
-                
-//                 <div className="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors duration-200">
-//                   <div className="bg-blue-100 p-3 rounded-lg mr-4">
-//                     <BookOpen size={24} className="text-blue-700" />
-//                   </div>
-//                   <div>
-//                     <h3 className="font-medium text-teal-950">Science - Water Cycle</h3>
-//                     <p className="text-sm text-gray-500">Last accessed: 3 days ago</p>
-//                   </div>
-//                   <button onClick={() => {}} className="ml-auto bg-teal-100 text-teal-950 p-2 rounded-full">
-//                     <Book size={16} />
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-            
-//             {/* App Download */}
-//             <div className="bg-white rounded-lg shadow-md p-6">
-//               <h2 className="text-xl font-semibold text-teal-950 mb-4">Download our mobile app</h2>
-//               <p className="text-gray-600 mb-6">For a better offline learning experience</p>
-              
-//               <div className="space-y-3">
-//                 <button onClick={() => {}} className="w-full flex items-center justify-center bg-black text-white rounded-lg px-4 py-2">
-//                   <div className="w-6 h-6 mr-2 flex items-center justify-center bg-white rounded-md">
-//                     <span className="text-black text-xs font-bold">A</span>
-//                   </div>
-//                   <span>Download on App Store</span>
-//                 </button>
-                
-//                 <button onClick={() => {}} className="w-full flex items-center justify-center bg-teal-950 text-white rounded-lg px-4 py-2">
-//                   <Download size={20} className="mr-2" />
-//                   <span>Download on Play Store</span>
-//                 </button>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Dashboard;
-
-
-
-
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Book, BookOpen, MessageSquare, Download, Users, Clock, Award, TrendingUp, Star, Bell, Search, Menu } from 'lucide-react';
 import Sidebar from '../components/Sidebar';
+import { userAPI } from '../utils/api';
 
 const Dashboard = () => {
-  const [userName, setUserName] = useState('Abdirahman');
+  // const [userName, setUserName] = useState('Dula');
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
+  useEffect(() => {
+  const fetchUserProfile = async () => {
+    try {
+      // Small delay to ensure token is saved
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      const token = localStorage.getItem('token');
+      console.log('Token check:', token); // Debug log
+      
+      // if (!token) {
+      //   window.location.href = '/dashboard';
+      //   return;
+      // }
+
+      const response = await userAPI.getProfile();
+      setUserName(response.data.fullName || 'User');
+      setUserEmail(response.data.email || '');
+      setError('');
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      setError('Failed to load user profile');
+      setUserName('User');
+      setLoading(false);
+    }
+  };
+
+  fetchUserProfile();
+}, []);
 
   const stats = [
     { label: 'Total Hours', value: '110h', change: '+10%', color: 'text-purple-600', bgColor: 'bg-purple-100' },
@@ -222,7 +91,20 @@ const Dashboard = () => {
         <header className="bg-teal-950 shadow-sm   p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white mt-1">Welcome back, {userName}!</p>
+              {/* <p className="text-white mt-1">Welcome back, {userName}!</p> */}
+              <p className="text-white mt-1">
+              {loading ? (
+                <span className="flex items-center">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Loading...
+                </span>
+              ) : (
+                `Welcome back, ${userName}!`
+              )}
+              </p>
+              {error && (
+              <p className="text-red-300 text-sm mt-1">{error}</p>
+              )}
             </div>
             <div className="flex items-center space-x-4">
               <div className="relative">
