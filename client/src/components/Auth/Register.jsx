@@ -74,7 +74,7 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-900 via-blue-900 to-purple-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-green-900 via-teal-900 to-purple-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
@@ -84,7 +84,7 @@ const Register = () => {
           <h2 className="text-3xl font-bold text-white mb-2">
             Join Cushite Learning
           </h2>
-          <p className="text-blue-200">
+          <p className="text-teal-200">
             Create your student account and start learning
           </p>
         </div>
@@ -205,7 +205,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-green-600 to-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-green-700 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full bg-gradient-to-r from-green-600 to-teal-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-green-700 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200"
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center">
@@ -219,7 +219,7 @@ const Register = () => {
 
             {/* Login Link */}
             <div className="text-center">
-              <p className="text-blue-200 text-sm">
+              <p className="text-teal-200 text-sm">
                 Already have an account?{' '}
                 <Link
                   to="/login"

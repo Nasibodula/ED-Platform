@@ -1,13 +1,14 @@
 const User = require('../models/User');
-const { validationResult } = require('express-validator');
+const Course = require('../models/Course');
 
 // Get all students (Admin only)
 const getAllStudents = async (req, res) => {
   try {
     const { page = 1, limit = 10, search } = req.query;
-    
-    // Build filter
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
     let filter = { role: 'student' };
+    
     if (search) {
       filter.$or = [
         { name: { $regex: search, $options: 'i' } },
@@ -15,25 +16,30 @@ const getAllStudents = async (req, res) => {
       ];
     }
 
-    const skip = (parseInt(page) - 1) * parseInt(limit);
-    
     const students = await User.find(filter)
-      .populate('enrolledCourses.courseId', 'title category level')
+      .select('name email createdAt enrolledCourses isActive')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(parseInt(limit));
 
     const total = await User.countDocuments(filter);
 
+    // Add enrollment count for each student
+    const studentsWithEnrollments = students.map(student => ({
+      ...student.toObject(),
+      enrollmentCount: student.enrolledCourses?.length || 0
+    }));
+
     res.json({
       success: true,
       data: {
-        students,
+        students: studentsWithEnrollments,
         pagination: {
           current: parseInt(page),
           total: Math.ceil(total / parseInt(limit)),
           hasNext: skip + students.length < total,
-          hasPrev: parseInt(page) > 1
+          hasPrev: parseInt(page) > 1,
+          totalCount: total
         }
       }
     });
@@ -51,8 +57,11 @@ const getAllStudents = async (req, res) => {
 // Get user profile
 const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.userId)
-      .populate('enrolledCourses.courseId', 'title description thumbnail category level instructor duration');
+    const userId = req.userId;
+    
+    const user = await User.findById(userId)
+      .select('-password')
+      .populate('enrolledCourses.courseId', 'title description thumbnail');
 
     if (!user) {
       return res.status(404).json({
@@ -79,33 +88,27 @@ const getUserProfile = async (req, res) => {
 // Update user profile
 const updateUserProfile = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        message: 'Validation errors',
-        errors: errors.array()
-      });
-    }
+    const userId = req.userId;
+    const updates = req.body;
 
-    const { name, profilePicture, preferences } = req.body;
-    
-    const user = await User.findById(req.userId);
+    // Remove sensitive fields that shouldn't be updated via this endpoint
+    delete updates.password;
+    delete updates.role;
+    delete updates.isActive;
+    delete updates.enrolledCourses;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: updates },
+      { new: true, runValidators: true }
+    ).select('-password');
+
     if (!user) {
       return res.status(404).json({
         success: false,
         message: 'User not found'
       });
     }
-
-    // Update allowed fields
-    if (name) user.name = name;
-    if (profilePicture) user.profilePicture = profilePicture;
-    if (preferences) {
-      user.preferences = { ...user.preferences, ...preferences };
-    }
-
-    await user.save();
 
     res.json({
       success: true,
@@ -115,6 +118,15 @@ const updateUserProfile = async (req, res) => {
 
   } catch (error) {
     console.error('Update user profile error:', error);
+    
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: 'Validation error',
+        errors: Object.values(error.errors).map(err => err.message)
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: 'Server error while updating profile',
@@ -127,16 +139,10 @@ const updateUserProfile = async (req, res) => {
 const updateCourseProgress = async (req, res) => {
   try {
     const { courseId } = req.params;
-    const { progress } = req.body;
+    const { progress, lessonId } = req.body;
+    const userId = req.userId;
 
-    if (progress < 0 || progress > 100) {
-      return res.status(400).json({
-        success: false,
-        message: 'Progress must be between 0 and 100'
-      });
-    }
-
-    const user = await User.findById(req.userId);
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -144,26 +150,63 @@ const updateCourseProgress = async (req, res) => {
       });
     }
 
-    const enrolledCourse = user.enrolledCourses.find(
-      course => course.courseId.toString() === courseId
-    );
-
-    if (!enrolledCourse) {
+    const course = await Course.findById(courseId);
+    if (!course) {
       return res.status(404).json({
         success: false,
-        message: 'Course not found in enrolled courses'
+        message: 'Course not found'
       });
     }
 
-    enrolledCourse.progress = progress;
+    // Check if user is enrolled in the course
+    const enrollmentIndex = user.enrolledCourses.findIndex(
+      enrollment => enrollment.courseId.toString() === courseId
+    );
+
+    if (enrollmentIndex === -1) {
+      return res.status(400).json({
+        success: false,
+        message: 'User is not enrolled in this course'
+      });
+    }
+
+    // Update progress
+    const currentProgress = user.enrolledCourses[enrollmentIndex].progress;
+    user.enrolledCourses[enrollmentIndex].progress = Math.max(currentProgress, progress);
+    user.enrolledCourses[enrollmentIndex].lastAccessed = new Date();
+
+    // Mark as completed if progress is 100%
+    if (progress >= 100) {
+      user.enrolledCourses[enrollmentIndex].isCompleted = true;
+      user.enrolledCourses[enrollmentIndex].completedAt = new Date();
+    }
+
+    // Add completed lesson if provided
+    if (lessonId) {
+      const completedLessons = user.enrolledCourses[enrollmentIndex].completedLessons || [];
+      const alreadyCompleted = completedLessons.some(
+        lesson => lesson.lessonId.toString() === lessonId
+      );
+
+      if (!alreadyCompleted) {
+        user.enrolledCourses[enrollmentIndex].completedLessons.push({
+          lessonId,
+          completedAt: new Date()
+        });
+      }
+    }
+
     await user.save();
+
+    // Also update progress in course model
+    await course.updateProgress(userId, progress, lessonId);
 
     res.json({
       success: true,
-      message: 'Course progress updated successfully',
+      message: 'Progress updated successfully',
       data: {
-        courseId,
-        progress
+        progress: user.enrolledCourses[enrollmentIndex].progress,
+        isCompleted: user.enrolledCourses[enrollmentIndex].isCompleted
       }
     });
 
@@ -191,8 +234,6 @@ const getDashboardStats = async (req, res) => {
     let stats = {};
 
     if (user.role === 'admin') {
-      const Course = require('../models/Course');
-      
       const totalStudents = await User.countDocuments({ role: 'student' });
       const totalCourses = await Course.countDocuments();
       const publishedCourses = await Course.countDocuments({ isPublished: true });

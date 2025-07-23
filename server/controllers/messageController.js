@@ -181,7 +181,7 @@ const getStudentMessages = async (req, res) => {
 
     // Validate and set pagination
     const pageNum = Math.max(1, parseInt(page));
-    const limitNum = Math.min(50, Math.max(1, parseInt(limit))); // Max 50 items per page
+    const limitNum = Math.min(50, Math.max(1, parseInt(limit))); 
     const skip = (pageNum - 1) * limitNum;
 
     // Build sort object
@@ -196,7 +196,7 @@ const getStudentMessages = async (req, res) => {
       .sort(sort)
       .skip(skip)
       .limit(limitNum)
-      .lean(); // Use lean() for better performance since we're not modifying
+      .lean(); 
 
     // Get total count for pagination
     const total = await Message.countDocuments(filter);
@@ -257,7 +257,7 @@ const getStudentMessages = async (req, res) => {
       hasResponse: Boolean(message.adminResponse),
       responseTime: message.respondedAt ? 
         Math.round((new Date(message.respondedAt) - new Date(message.createdAt)) / (1000 * 60 * 60 * 24)) 
-        : null, // Response time in days
+        : null, 
       canEdit: message.status === 'pending' && !message.adminResponse,
       formattedCreatedAt: new Date(message.createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -311,7 +311,7 @@ const getStudentMessages = async (req, res) => {
         },
         stats: {
           ...stats,
-          averageResponseTime: Math.round((stats.averageResponseTime || 0) * 10) / 10 // Round to 1 decimal
+          averageResponseTime: Math.round((stats.averageResponseTime || 0) * 10) / 10 
         }
       }
     });

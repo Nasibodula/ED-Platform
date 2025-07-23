@@ -53,17 +53,17 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-teal-900 via-teal-900 to-indigo-900 flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
         {/* Header */}
         <div className="text-center">
           <div className="mx-auto h-16 w-16 bg-white rounded-full flex items-center justify-center mb-4">
-            <BookOpen className="h-8 w-8 text-blue-600" />
+            <BookOpen className="h-8 w-8 text-teal-600" />
           </div>
           <h2 className="text-3xl font-bold text-white mb-2">
             Welcome Back
           </h2>
-          <p className="text-blue-200">
+          <p className="text-teal-200">
             Sign in to your Cushite Learning account
           </p>
         </div>
@@ -94,7 +94,7 @@ const Login = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                   placeholder="Enter your email"
                 />
               </div>
@@ -116,7 +116,7 @@ const Login = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-12 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
                   placeholder="Enter your password"
                 />
                 <button
@@ -133,7 +133,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full bg-gradient-to-r from-teal-600 to-purple-600 text-white py-3 px-4 rounded-lg font-semibold hover:from-teal-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200"
             >
               {isSubmitting ? (
                 <div className="flex items-center justify-center">
@@ -147,11 +147,11 @@ const Login = () => {
 
             {/* Register Link */}
             <div className="text-center">
-              <p className="text-blue-200 text-sm">
+              <p className="text-teal-200 text-sm">
                 Don't have an account?{' '}
                 <Link
                   to="/register"
-                  className="text-white font-semibold hover:text-blue-300 transition-colors"
+                  className="text-white font-semibold hover:text-teal-300 transition-colors"
                 >
                   Create account
                 </Link>
@@ -159,7 +159,7 @@ const Login = () => {
             </div>
 
             {/* Demo Credentials */}
-            <div className="bg-blue-500/20 border border-blue-500/50 text-blue-200 px-4 py-3 rounded-lg text-sm">
+            <div className="bg-teal-500/20 border border-teal-500/50 text-teal-200 px-4 py-3 rounded-lg text-sm">
               <p className="font-semibold mb-1">Demo Credentials:</p>
               <p>Admin: admin@cushite.com / admin123456</p>
               <p>Student: Register to create account</p>

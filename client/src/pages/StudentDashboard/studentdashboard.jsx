@@ -6,23 +6,8 @@ import StudentCourses from './components/StudentCourses';
 import StudentProfile from './components/StudentProfile';
 import StudentSupport from './components/StudentSupport';
 import { useAuth } from '../../contexts/AuthContext';
+import TranslationTool from './components/Translator';
 
-// Placeholder components for missing pages
-const StudentTranslator = () => (
-  <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-    <div className="text-center">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4">Language Translator</h2>
-      <p className="text-gray-600 mb-6">
-        Access our built-in translator to help with your language learning journey.
-      </p>
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <p className="text-blue-800">
-          🔄 Redirecting to main translator... This feature integrates with your existing translator page.
-        </p>
-      </div>
-    </div>
-  </div>
-);
 
 const StudentSettings = () => (
   <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
@@ -85,7 +70,7 @@ const StudentDashboard = () => {
             <Route path="/dashboard" element={<StudentOverview />} />
             <Route path="/courses" element={<StudentCourses />} />
             <Route path="/profile" element={<StudentProfile />} />
-            <Route path="/translator" element={<StudentTranslator />} />
+            <Route path="/translator" element={<TranslationTool />} />
             <Route path="/support" element={<StudentSupport />} />
             <Route path="/settings" element={<StudentSettings />} />
           </Routes>

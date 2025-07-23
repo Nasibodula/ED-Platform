@@ -7,10 +7,11 @@ const {
   getCourseForStudent
 } = require('../controllers/studentController');
 const { enrollInCourse } = require('../controllers/courseController');
-const auth = require('../middleware/auth');
+// const auth = require('../middleware/authMiddleware');
+const { authenticateToken } = require('../middleware/authMiddleware');
 
 // Apply authentication middleware to all routes
-router.use(auth);
+router.use(authenticateToken);
 
 // Student dashboard routes
 router.get('/stats', getStudentStats);
