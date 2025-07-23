@@ -11,7 +11,7 @@ import {
   MessageSquare,
   BarChart3
 } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '../../../contexts/AuthContext';
 
 const AdminSidebar = ({ isOpen, toggleSidebar }) => {
   const { logout } = useAuth();
