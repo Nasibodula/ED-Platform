@@ -1,16 +1,22 @@
 const express = require('express');
 const { registerStudent, loginUser, getCurrentUser } = require('../controllers/authController');
-const { protect } = require('../middleware/authMiddleware');
+const { authenticateToken } = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// Register student
+// @route   POST /api/auth/register
+// @desc    Register student
+// @access  Public
 router.post('/register', registerStudent);
 
-// Login (both admin and student)
+// @route   POST /api/auth/login  
+// @desc    Login (both admin and student)
+// @access  Public
 router.post('/login', loginUser);
 
-// Get current user (protected route)
-router.get('/me', protect, getCurrentUser);
+// @route   GET /api/auth/me
+// @desc    Get current user (protected route)
+// @access  Private
+router.get('/me', authenticateToken, getCurrentUser);
 
 module.exports = router;
