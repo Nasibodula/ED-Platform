@@ -4,6 +4,10 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes')
 const adminRoutes = require('./routes/adminRoutes');
+const courseRoutes = require('./routes/courseRoutes');
+const studentRoutes = require('./routes/studentRoutes');
+const { authenticateToken, requireAdmin } = require('./middleware/authMiddleware');
+
 
 dotenv.config();
 
@@ -23,7 +27,10 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes);  // Add this line
+app.use('/api/admin', adminRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/students', studentRoutes);
+
 
 // Default route
 app.get('/', (req, res) => {
