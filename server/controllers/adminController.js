@@ -7,19 +7,20 @@ const getAdminStats = async (req, res) => {
     // Get current date and date 30 days ago for growth calculation
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    
+    const firstDayOfMonth = new Date();
+    firstDayOfMonth.setDate(1);
 
     // Total students count
     const totalStudents = await User.countDocuments({ role: 'student' });
-    const studentsLastMonth = await User.countDocuments({ 
+    const newStudentsThisMonth = await User.countDocuments({ 
       role: 'student',
-      createdAt: { $gte: thirtyDaysAgo }
+      createdAt: { $gte: firstDayOfMonth }
     });
 
-    // Active courses count
-    const activeCourses = await Course.countDocuments({ isActive: true });
-    const coursesLastMonth = await Course.countDocuments({ 
-      createdAt: { $gte: thirtyDaysAgo }
-    });
+    // Total courses count (changed from activeCourses to totalCourses)
+    const totalCourses = await Course.countDocuments();
+    const publishedCourses = await Course.countDocuments({ isActive: true });
 
     // Total enrollments across all courses
     const coursesWithEnrollments = await Course.aggregate([
@@ -32,45 +33,26 @@ const getAdminStats = async (req, res) => {
     ]);
     const totalEnrollments = coursesWithEnrollments[0]?.totalEnrollments || 0;
 
-    // Calculate enrollment growth (this is simplified - you might want to track enrollments separately)
-    const enrollmentsLastMonth = await Course.aggregate([
-      {
-        $match: { createdAt: { $gte: thirtyDaysAgo } }
-      },
-      {
-        $group: {
-          _id: null,
-          enrollments: { $sum: '$studentsEnrolled' }
-        }
-      }
-    ]);
-    const newEnrollments = enrollmentsLastMonth[0]?.enrollments || 0;
+    // Messages count (placeholder for now)
+    const messages = 0;
 
-    // Messages count (you'll need to implement a Message model)
-    const messages = 0; // Placeholder - implement when you add messaging
+    // Create stats object that matches frontend expectations
+    const stats = {
+      totalStudents,
+      totalCourses,      
+      totalEnrollments,
+      newStudentsThisMonth, 
+      publishedCourses,  
+      messages
+    };
 
-    // Calculate growth percentages
-    const studentsGrowth = totalStudents > 0 
-      ? `+${Math.round((studentsLastMonth / Math.max(totalStudents - studentsLastMonth, 1)) * 100)}%`
-      : '+0%';
-    
-    const coursesGrowth = `+${coursesLastMonth}`;
-    
-    const enrollmentsGrowth = totalEnrollments > 0
-      ? `+${Math.round((newEnrollments / Math.max(totalEnrollments - newEnrollments, 1)) * 100)}%`
-      : '+0%';
-
+    // Return in the structure your frontend expects
     res.json({
       success: true,
       data: {
-        totalStudents,
-        activeCourses,
-        totalEnrollments,
-        messages,
-        studentsGrowth,
-        coursesGrowth,
-        enrollmentsGrowth,
-        messagesGrowth: '+0'
+        data: {         
+          stats           
+        }
       }
     });
 
@@ -102,37 +84,42 @@ const getRecentActivities = async (req, res) => {
       .select('title createdAt createdBy')
       .populate('createdBy', 'name');
 
-    // Combine and format activities
+    // Combine and format activities to match frontend expectations
     const activities = [];
 
     // Add user registrations
     recentUsers.forEach(user => {
       activities.push({
-        _id: `user_${user._id}`,
-        type: 'enrollment',
-        description: `New student registered on the platform`,
-        userName: user.name,
-        createdAt: user.createdAt
+        id: `user_${user._id}`,
+        type: 'registration',
+        message: `${user.name} registered as a new student`,
+        user: user.name,
+        timestamp: user.createdAt
       });
     });
 
     // Add course creations
     recentCourses.forEach(course => {
       activities.push({
-        _id: `course_${course._id}`,
-        type: 'course_created',
-        description: `New course "${course.title}" was created`,
-        userName: course.createdBy?.name || 'Admin',
-        createdAt: course.createdAt
+        id: `course_${course._id}`,
+        type: 'course_update',
+        message: `New course "${course.title}" was created`,
+        user: course.createdBy?.name || 'Admin',
+        timestamp: course.createdAt
       });
     });
 
     // Sort all activities by date
-    activities.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    activities.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
+    // Return in the structure your frontend expects
     res.json({
       success: true,
-      data: activities.slice(0, limit)
+      data: {
+        data: {
+          activities: activities.slice(0, limit)
+        }
+      }
     });
 
   } catch (error) {

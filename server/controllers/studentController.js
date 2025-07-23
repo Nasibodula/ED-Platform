@@ -22,7 +22,7 @@ const getEnrolledCourses = async (req, res) => {
 
     // Format the enrolled courses data
     const enrolledCourses = user.enrolledCourses
-      .filter(enrollment => enrollment.courseId) // Filter out any null courseIds
+      .filter(enrollment => enrollment.courseId)
       .map(enrollment => ({
         ...enrollment.toObject(),
         courseId: enrollment.courseId
@@ -133,10 +133,12 @@ const getStudentStats = async (req, res) => {
     const enrolledCourses = user.enrolledCourses || [];
     
     // Calculate statistics
-    const totalEnrolled = enrolledCourses.length;
-    const totalProgress = enrolledCourses.reduce((sum, course) => sum + (course.progress || 0), 0);
-    const averageProgress = totalEnrolled > 0 ? Math.round(totalProgress / totalEnrolled) : 0;
+    const enrolledCoursesCount = enrolledCourses.length;
     const completedCourses = enrolledCourses.filter(course => course.progress === 100).length;
+    const inProgressCourses = enrolledCourses.filter(course => course.progress > 0 && course.progress < 100).length;
+    
+    const totalProgress = enrolledCourses.reduce((sum, course) => sum + (course.progress || 0), 0);
+    const averageProgress = enrolledCoursesCount > 0 ? Math.round(totalProgress / enrolledCoursesCount) : 0;
     
     // Recent activity
     const recentActivity = enrolledCourses
@@ -152,9 +154,12 @@ const getStudentStats = async (req, res) => {
     res.json({
       success: true,
       data: {
-        totalEnrolled,
-        averageProgress,
-        completedCourses,
+        stats: {
+          enrolledCoursesCount,
+          completedCourses,
+          inProgressCourses,
+          averageProgress
+        },
         recentActivity
       }
     });
