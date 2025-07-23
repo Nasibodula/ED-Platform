@@ -1,70 +1,9 @@
-// import axios from 'axios';
-
-// // Create axios instance with base configuration
-// const api = axios.create({
-//   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
-//   timeout: 10000,
-// });
-
-// // Request interceptor to add auth token
-// api.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem('token');
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
-
-// // Response interceptor to handle errors
-// api.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     if (error.response?.status === 401) {
-//       // Token expired or invalid
-//       localStorage.removeItem('token');
-//       window.location.href = '/dashboard';
-//     }
-//     return Promise.reject(error);
-//   }
-// );
-
-// // API functions
-// export const userAPI = {
-//   // Get user profile
-//   getProfile: () => api.get('/user/profile'),
-  
-//   // Update user profile
-//   updateProfile: (userData) => api.put('/user/profile', userData),
-// };
-
-// export const authAPI = {
-//   // Login
-//   login: (credentials) => api.post('/auth/login', credentials),
-  
-//   // Register
-//   register: (userData) => api.post('/auth/register', userData),
-  
-//   // Logout
-//   logout: () => {
-//     localStorage.removeItem('token');
-//     window.location.href = '/login';
-//   },
-// };
-
-// export default api;
-
-// utils/api.js - Updated version
 import axios from 'axios';
 
 // Create axios instance with base configuration
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
-  timeout: 10000,
+  timeout: 15000,
 });
 
 // Request interceptor to add auth token
@@ -85,47 +24,70 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Only redirect on 401 if we're not already on login page
     if (error.response?.status === 401 && !window.location.pathname.includes('/login')) {
       console.log('Token expired or invalid, redirecting to login');
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      // Uncomment the line below if you want automatic redirect
-      // window.location.href = '/login';
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   }
 );
 
 // API functions
-export const userAPI = {
-  // Get user profile
-  getProfile: () => api.get('/auth/profile'),
-  // getProfile: () => api.get('/user/profile'),
-  updateProfile: (userData) => api.put('/auth/profile', userData),
-  
-  // Update user profile
-  // updateProfile: (userData) => api.put('/user/profile', userData),
-};
-
 export const authAPI = {
-  // Login - using your existing backend endpoint
-  login: (credentials) => api.post('/auth/signin', credentials),
-  
-  // Register - using your existing backend endpoint  
-  register: (userData) => api.post('/auth/signup', userData),
-  
-  // Logout
+  login: (credentials) => api.post('/auth/login', credentials),
+  register: (userData) => api.post('/auth/register', userData),
+  getProfile: () => api.get('/auth/profile'),
   logout: () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     window.location.href = '/login';
   },
+  isAuthenticated: () => !!localStorage.getItem('token'),
+};
+
+export const userAPI = {
+  getProfile: () => api.get('/users/profile'),
+  updateProfile: (userData) => api.put('/users/profile', userData),
+  getDashboardStats: () => api.get('/users/dashboard/stats'),
+  getAllStudents: (params) => api.get('/users/students', { params }),
+  deactivateUser: (userId) => api.put(`/users/${userId}/deactivate`),
+  activateUser: (userId) => api.put(`/users/${userId}/activate`),
+  updateCourseProgress: (courseId, progress) => api.put(`/users/progress/${courseId}`, { progress }),
+};
+
+export const courseAPI = {
+  getAllCourses: (params) => api.get('/courses', { params }),
+  getCourse: (id) => api.get(`/courses/${id}`),
+  enrollInCourse: (id) => api.post(`/courses/${id}/enroll`),
   
-  // Check if user is authenticated
-  isAuthenticated: () => {
-    return !!localStorage.getItem('token');
-  },
+  // Admin functions
+  getAdminCourses: (params) => api.get('/courses/admin', { params }),
+  createCourse: (courseData) => api.post('/courses', courseData),
+  updateCourse: (id, courseData) => api.put(`/courses/${id}`, courseData),
+  deleteCourse: (id) => api.delete(`/courses/${id}`),
+};
+
+export const studentAPI = {
+  getEnrolledCourses: () => api.get('/student/enrolled-courses'),
+  getStats: () => api.get('/student/stats'),
+  updateCourseProgress: (courseId, progress) => 
+    api.put(`/student/courses/${courseId}/progress`, { progress }),
+};
+
+export const adminAPI = {
+  getStats: () => api.get('/admin/stats'),
+  getAllStudents: (params) => api.get('/admin/students', { params }),
+  getRecentActivities: () => api.get('/admin/recent-activities'),
+};
+
+export const messageAPI = {
+  createMessage: (messageData) => api.post('/messages', messageData),
+  getStudentMessages: (params) => api.get('/messages/student', { params }),
+  getAdminMessages: (params) => api.get('/messages/admin', { params }),
+  updateMessageStatus: (id, status) => api.put(`/messages/${id}/status`, { status }),
+  respondToMessage: (id, response) => api.put(`/messages/${id}/respond`, { adminResponse: response }),
 };
 
 export default api;

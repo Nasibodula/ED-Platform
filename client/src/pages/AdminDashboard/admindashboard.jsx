@@ -5,51 +5,7 @@ import AdminOverview from './components/AdminOverview';
 import AdminStudents from './components/AdminStudents';
 import AdminMessages from './components/AdminMessages';
 import { useAuth } from '../../contexts/AuthContext';
-
-// Placeholder components for missing admin pages
-const AdminCourses = () => (
-  <div className="space-y-6">
-    <div className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl p-6 text-white">
-      <h2 className="text-2xl font-bold mb-2">Course Management</h2>
-      <p className="text-purple-100">Create, edit, and manage courses for your students</p>
-    </div>
-    
-    <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-      <div className="text-center">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Course Management System</h3>
-        <p className="text-gray-600 mb-6">
-          Add new courses, manage existing ones, and track course performance.
-        </p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-blue-50 p-6 rounded-lg">
-            <h4 className="font-semibold text-blue-900 mb-2">Add New Course</h4>
-            <p className="text-blue-700 text-sm mb-4">Create courses with lessons, videos, and assessments</p>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-              Create Course
-            </button>
-          </div>
-          
-          <div className="bg-green-50 p-6 rounded-lg">
-            <h4 className="font-semibold text-green-900 mb-2">Manage Existing</h4>
-            <p className="text-green-700 text-sm mb-4">Edit course content, update materials, and track progress</p>
-            <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
-              View Courses
-            </button>
-          </div>
-          
-          <div className="bg-purple-50 p-6 rounded-lg">
-            <h4 className="font-semibold text-purple-900 mb-2">Course Analytics</h4>
-            <p className="text-purple-700 text-sm mb-4">Monitor enrollment, completion rates, and student feedback</p>
-            <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
-              View Analytics
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+import AdminCourses from './components/AdminCourses';
 
 const AdminAnalytics = () => (
   <div className="space-y-6">
