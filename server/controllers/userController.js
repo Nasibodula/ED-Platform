@@ -317,5 +317,3 @@ module.exports = {
   deactivateUser,
   activateUser
 };
-
-

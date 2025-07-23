@@ -11,10 +11,21 @@ const registerStudent = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    // Validate required fields
+    if (!name || !email || !password) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Name, email, and password are required' 
+      });
+    }
+
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ message: 'User already exists with this email' });
+      return res.status(400).json({ 
+        success: false,
+        message: 'User already exists with this email' 
+      });
     }
 
     // Create new student
@@ -22,7 +33,8 @@ const registerStudent = async (req, res) => {
       name,
       email,
       password,
-      role: 'student'
+      role: 'student',
+      isActive: true
     });
 
     await user.save();
@@ -31,6 +43,7 @@ const registerStudent = async (req, res) => {
     const token = generateToken(user._id);
 
     res.status(201).json({
+      success: true,
       message: 'Student registered successfully',
       token,
       user: {
@@ -43,7 +56,19 @@ const registerStudent = async (req, res) => {
 
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ message: 'Server error during registration' });
+    
+    // Handle duplicate email error
+    if (error.code === 11000) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Email already exists' 
+      });
+    }
+    
+    res.status(500).json({ 
+      success: false,
+      message: 'Server error during registration' 
+    });
   }
 };
 
@@ -52,57 +77,103 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Find user
-    const user = await User.findOne({ email });
+    // Validate required fields
+    if (!email || !password) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Email and password are required' 
+      });
+    }
+
+    // Find user and include password for comparison
+    const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(400).json({ 
+        success: false,
+        message: 'Invalid email or password' 
+      });
+    }
+
+    // Check if account is active
+    if (!user.isActive) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Your account has been deactivated. Please contact support.' 
+      });
     }
 
     // Check password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      return res.status(400).json({ 
+        success: false,
+        message: 'Invalid email or password' 
+      });
     }
+
+    // Update last login
+    user.lastLogin = new Date();
+    user.loginCount = (user.loginCount || 0) + 1;
+    await user.save();
 
     // Generate token
     const token = generateToken(user._id);
 
     res.json({
+      success: true,
       message: 'Login successful',
       token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role
+        role: user.role,
+        profilePicture: user.profilePicture,
+        preferences: user.preferences
       }
     });
 
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).json({ message: 'Server error during login' });
+    res.status(500).json({ 
+      success: false,
+      message: 'Server error during login' 
+    });
   }
 };
 
 // Get Current User
 const getCurrentUser = async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId);
+    const user = await User.findById(req.userId).select('-password');
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ 
+        success: false,
+        message: 'User not found' 
+      });
     }
 
     res.json({
+      success: true,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role
+        role: user.role,
+        profilePicture: user.profilePicture,
+        bio: user.bio,
+        country: user.country,
+        preferences: user.preferences,
+        isActive: user.isActive,
+        createdAt: user.createdAt
       }
     });
   } catch (error) {
     console.error('Get current user error:', error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ 
+      success: false,
+      message: 'Server error' 
+    });
   }
 };
 
