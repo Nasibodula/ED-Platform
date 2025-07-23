@@ -28,7 +28,7 @@ const Register = () => {
   // Clear error only on component mount
   useEffect(() => {
     clearError();
-  }, [clearError]); // Remove formData from dependency array
+  }, [clearError]);
 
   const handleChange = (e) => {
     // Clear errors when user starts typing (inline)
@@ -67,7 +67,7 @@ const Register = () => {
     const result = await register(formData.name, formData.email, formData.password);
     
     if (result.success) {
-      // Redirect to student dashboard (only students can register)
+      
       navigate('/student');
     }
     setIsSubmitting(false);

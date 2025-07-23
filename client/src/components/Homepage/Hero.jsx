@@ -67,9 +67,11 @@ export default function Hero() {
             </p>
             
             <div className="flex space-x-4">
+              <a href="/login">
               <button className="bg-white text-teal-600 px-8 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105">
                 Get started
               </button>
+              </a>
               <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-teal-600 transition-all">
                 Learn More
               </button>
