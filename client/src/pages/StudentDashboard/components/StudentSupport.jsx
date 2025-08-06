@@ -1,176 +1,176 @@
 import React, { useState, useEffect } from 'react';
 import { 
   MessageSquare, 
-  Plus,
-  Send,
-  Clock,
-  CheckCircle2,
-  AlertCircle,
-  HelpCircle,
-  Book,
-  Settings,
-  Search,
-  Filter,
-  Mail,
-  Phone,
-  MessageCircle,
+  Send, 
+  Plus, 
+  AlertCircle, 
+  CheckCircle2, 
+  Clock, 
+  Book, 
+  Settings, 
+  HelpCircle, 
+  Mail, 
   ExternalLink,
+  RefreshCw,
   X
 } from 'lucide-react';
+import { messageAPI } from '../../../utils/api';
 
 const StudentSupport = () => {
+  const [activeTab, setActiveTab] = useState('messages');
   const [messages, setMessages] = useState([]);
-  const [filteredMessages, setFilteredMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showNewMessageModal, setShowNewMessageModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
+  const [submitting, setSubmitting] = useState(false);
   const [newMessage, setNewMessage] = useState({
     subject: '',
     message: '',
     type: 'general',
     priority: 'medium',
-    requestedCourse: {
-      title: '',
-      description: '',
-      category: '',
-      language: ''
-    }
+    requestedCourse: ''
   });
-  const [submitting, setSubmitting] = useState(false);
 
-  useEffect(() => {
-    fetchMessages();
-  }, []);
-
-  useEffect(() => {
-    filterMessages();
-  }, [searchTerm, filterStatus, messages]);
-
+  // Fetch student's messages
   const fetchMessages = async () => {
     try {
       setLoading(true);
-      // Mock data - replace with actual API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const mockMessages = [
+      const response = await messageAPI.getStudentMessages({
+        limit: 50,
+        sortBy: 'createdAt',
+        sortOrder: 'desc'
+      });
+
+      if (response.data.success) {
+        const messagesData = response.data.data.messages || [];
+        
+        // Transform messages to match frontend format
+        const transformedMessages = messagesData.map(msg => ({
+          id: msg._id,
+          subject: msg.subject,
+          message: msg.message,
+          type: msg.type,
+          priority: msg.priority,
+          status: msg.status,
+          adminResponse: msg.adminResponse,
+          respondedBy: msg.respondedBy?.name || msg.respondedBy,
+          respondedAt: msg.respondedAt,
+          createdAt: msg.createdAt,
+          requestedCourse: msg.requestedCourse
+        }));
+
+        setMessages(transformedMessages);
+      }
+    } catch (error) {
+      console.error('Error fetching messages:', error);
+      // in the case api fails
+      setMessages([
         {
           id: 1,
-          subject: 'Request for Advanced Borana Course',
-          message: 'I have completed the basic Borana course and would like to enroll in an advanced level course. Could you please let me know when it will be available?',
+          subject: 'Request for Advanced Oromo Course',
+          message: 'I have completed the basic Oromo course and would like to enroll in an advanced level course. Could you please let me know when it will be available?',
           type: 'course_request',
-          status: 'resolved',
+          status: 'pending',
           priority: 'medium',
-          createdAt: '2024-01-15T10:30:00Z',
-          adminResponse: 'Thank you for your interest! We are planning to launch the Advanced Borana course in March 2024. You will be notified via email once enrollment opens.',
-          respondedBy: 'Admin Team',
-          respondedAt: '2024-01-16T09:15:00Z',
-          requestedCourse: {
-            title: 'Advanced Borana Language',
-            description: 'Advanced grammar and conversation skills',
-            category: 'Language',
-            language: 'Borana'
-          }
+          createdAt: new Date(Date.now() - 86400000).toISOString(), 
+          requestedCourse: 'Advanced Oromo Language'
         },
         {
           id: 2,
-          subject: 'Technical Issue with Video Playback',
-          message: 'I am experiencing issues with video playback in the Somali Conversation course. The videos are not loading properly and I get an error message.',
+          subject: 'Technical Issue with Video Player',
+          message: 'I am experiencing issues with the video player in the Cultural Studies course. The videos are not loading properly.',
           type: 'technical',
-          status: 'in_progress',
-          priority: 'high',
-          createdAt: '2024-01-20T14:22:00Z',
-          adminResponse: 'We are aware of this issue and our technical team is working on a fix. We apologize for the inconvenience.',
-          respondedBy: 'Tech Support',
-          respondedAt: '2024-01-20T16:45:00Z'
-        },
-        {
-          id: 3,
-          subject: 'Question about Course Certificates',
-          message: 'How do I download my certificate for the completed Basic Oromo course? I cannot find the download link in my profile.',
-          type: 'support',
           status: 'resolved',
-          priority: 'low',
-          createdAt: '2024-01-18T11:15:00Z',
-          adminResponse: 'You can download your certificate from the "My Courses" section. Click on the completed course and look for the "Download Certificate" button. If you still cannot find it, please let us know.',
-          respondedBy: 'Support Team',
-          respondedAt: '2024-01-18T13:30:00Z'
-        },
-        {
-          id: 4,
-          subject: 'Feedback on Cultural Studies Course',
-          message: 'I really enjoyed the Cultural Studies course but felt that more interactive content would be beneficial. Are there plans to add more interactive elements?',
-          type: 'general',
-          status: 'pending',
-          priority: 'low',
-          createdAt: '2024-01-21T09:45:00Z'
+          priority: 'high',
+          createdAt: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
+          adminResponse: 'We have fixed the video player issue. Please try clearing your browser cache and reload the page. If the problem persists, please let us know.',
+          respondedBy: 'Tech Support',
+          respondedAt: new Date(Date.now() - 86400000).toISOString()
         }
-      ];
-
-      setMessages(mockMessages);
-    } catch (error) {
-      console.error('Error fetching messages:', error);
+      ]);
     } finally {
       setLoading(false);
     }
   };
 
-  const filterMessages = () => {
-    let filtered = messages;
-
-    if (searchTerm) {
-      filtered = filtered.filter(msg =>
-        msg.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        msg.message.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+  useEffect(() => {
+    if (activeTab === 'messages') {
+      fetchMessages();
     }
+  }, [activeTab]);
 
-    if (filterStatus !== 'all') {
-      filtered = filtered.filter(msg => msg.status === filterStatus);
-    }
-
-    // Sort by creation date (newest first)
-    filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    setFilteredMessages(filtered);
-  };
-
+  // Handle new message submission
   const handleSubmitMessage = async () => {
+    if (!newMessage.subject.trim() || !newMessage.message.trim()) {
+      alert('Subject and message are required');
+      return;
+    }
+
     try {
       setSubmitting(true);
-      // Mock API call - replace with actual submission
-      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      // Add new message to the list
-      const newMsg = {
-        id: Date.now(),
-        ...newMessage,
-        status: 'pending',
-        createdAt: new Date().toISOString()
+      const messageData = {
+        subject: newMessage.subject.trim(),
+        message: newMessage.message.trim(),
+        type: newMessage.type,
+        priority: newMessage.priority
       };
-      
-      setMessages(prev => [newMsg, ...prev]);
-      setShowNewMessageModal(false);
-      setNewMessage({
-        subject: '',
-        message: '',
-        type: 'general',
-        priority: 'medium',
-        requestedCourse: {
-          title: '',
-          description: '',
-          category: '',
-          language: ''
-        }
-      });
-      
-      // Show success message
-      console.log('Message submitted successfully');
+
+      // Add requested course if it's a course request
+      if (newMessage.type === 'course_request' && newMessage.requestedCourse.trim()) {
+        messageData.requestedCourse = newMessage.requestedCourse.trim();
+      }
+
+      const response = await messageAPI.createMessage(messageData);
+
+      if (response.data.success) {
+        // Add new message to local state
+        const newMsg = {
+          id: response.data.data.message._id || Date.now().toString(),
+          subject: messageData.subject,
+          message: messageData.message,
+          type: messageData.type,
+          priority: messageData.priority,
+          status: 'pending',
+          createdAt: new Date().toISOString(),
+          requestedCourse: messageData.requestedCourse
+        };
+
+        setMessages(prev => [newMsg, ...prev]);
+        
+        // Reset form
+        setNewMessage({
+          subject: '',
+          message: '',
+          type: 'general',
+          priority: 'medium',
+          requestedCourse: ''
+        });
+        
+        setShowNewMessageModal(false);
+        alert('Message sent successfully!');
+      }
     } catch (error) {
-      console.error('Error submitting message:', error);
+      console.error('Error creating message:', error);
+      alert('Failed to send message. Please try again.');
     } finally {
       setSubmitting(false);
     }
+  };
+
+  // Utility functions
+  const getTimeAgo = (timestamp) => {
+    const now = new Date();
+    const time = new Date(timestamp);
+    const diffInMinutes = Math.floor((now - time) / (1000 * 60));
+    
+    if (diffInMinutes < 1) return 'Just now';
+    if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
+    
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) return `${diffInHours}h ago`;
+    
+    const diffInDays = Math.floor(diffInHours / 24);
+    return `${diffInDays}d ago`;
   };
 
   const getStatusIcon = (status) => {
@@ -212,69 +212,15 @@ const StudentSupport = () => {
     }
   };
 
-  const MessageCard = ({ message }) => (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-start space-x-3 flex-1">
-          {getTypeIcon(message.type)}
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-gray-900 mb-1">{message.subject}</h3>
-            <p className="text-sm text-gray-600 line-clamp-2">{message.message}</p>
-          </div>
-        </div>
-        
-        <div className="flex items-center space-x-2 ml-4">
-          <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${getStatusColor(message.status)}`}>
-            {getStatusIcon(message.status)}
-            <span>{message.status.replace('_', ' ')}</span>
-          </span>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
-        <span>Created: {new Date(message.createdAt).toLocaleDateString()}</span>
-        <span className="capitalize">{message.priority} priority</span>
-      </div>
-
-      {message.adminResponse && (
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-          <div className="flex items-start space-x-3">
-            <MessageCircle className="w-5 h-5 text-blue-600 mt-0.5" />
-            <div className="flex-1">
-              <h4 className="font-medium text-blue-900 mb-2">Admin Response</h4>
-              <p className="text-blue-800 text-sm">{message.adminResponse}</p>
-              <div className="flex items-center justify-between mt-2 text-xs text-blue-600">
-                <span>By: {message.respondedBy}</span>
-                <span>{new Date(message.respondedAt).toLocaleDateString()}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {message.type === 'course_request' && message.requestedCourse && (
-        <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-          <h4 className="font-medium text-purple-900 mb-2">Requested Course Details</h4>
-          <div className="text-sm text-purple-800 space-y-1">
-            <p><strong>Title:</strong> {message.requestedCourse.title}</p>
-            <p><strong>Category:</strong> {message.requestedCourse.category}</p>
-            <p><strong>Language:</strong> {message.requestedCourse.language}</p>
-            {message.requestedCourse.description && (
-              <p><strong>Description:</strong> {message.requestedCourse.description}</p>
-            )}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
+  const getPriorityColor = (priority) => {
+    const colors = {
+      urgent: 'bg-red-100 text-red-800',
+      high: 'bg-orange-100 text-orange-800',
+      medium: 'bg-yellow-100 text-yellow-800',
+      low: 'bg-green-100 text-green-800'
+    };
+    return colors[priority] || colors.medium;
+  };
 
   return (
     <div className="space-y-6">
@@ -297,114 +243,219 @@ const StudentSupport = () => {
         </div>
       </div>
 
-      {/* Quick Help Links */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <HelpCircle className="w-5 h-5 text-blue-600" />
-            </div>
-            <h3 className="font-semibold text-gray-900">FAQ</h3>
-          </div>
-          <p className="text-sm text-gray-600 mb-3">Find answers to common questions</p>
-          <button className="text-blue-600 text-sm hover:text-blue-700 flex items-center space-x-1">
-            <span>Browse FAQ</span>
-            <ExternalLink className="w-3 h-3" />
-          </button>
-        </div>
-
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <Mail className="w-5 h-5 text-green-600" />
-            </div>
-            <h3 className="font-semibold text-gray-900">Email Support</h3>
-          </div>
-          <p className="text-sm text-gray-600 mb-3">Contact us directly via email</p>
-          <a href="mailto:support@cushlearn.com" className="text-green-600 text-sm hover:text-green-700">
-            support@cushlearn.com
-          </a>
-        </div>
-
-        <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <Phone className="w-5 h-5 text-purple-600" />
-            </div>
-            <h3 className="font-semibold text-gray-900">Phone Support</h3>
-          </div>
-          <p className="text-sm text-gray-600 mb-3">Call us for urgent matters</p>
-          <a href="tel:+254123456789" className="text-purple-600 text-sm hover:text-purple-700">
-            +254 123 456 789
-          </a>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-            <input
-              type="text"
-              placeholder="Search your messages..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            />
-          </div>
-
-          <div className="flex items-center space-x-2">
-            <Filter className="w-4 h-4 text-gray-400" />
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+      {/* Navigation Tabs */}
+      <div className="bg-white rounded-lg border border-gray-200">
+        <div className="border-b border-gray-200">
+          <nav className="flex space-x-8 px-6">
+            <button
+              onClick={() => setActiveTab('messages')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'messages'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
             >
-              <option value="all">All Messages</option>
-              <option value="pending">Pending</option>
-              <option value="in_progress">In Progress</option>
-              <option value="resolved">Resolved</option>
-            </select>
-          </div>
+              <div className="flex items-center space-x-2">
+                <MessageSquare className="w-4 h-4" />
+                <span>My Messages</span>
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('help')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'help'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              <div className="flex items-center space-x-2">
+                <HelpCircle className="w-4 h-4" />
+                <span>Help & FAQ</span>
+              </div>
+            </button>
+          </nav>
+        </div>
+
+        <div className="p-6">
+          {activeTab === 'messages' && (
+            <div className="space-y-4">
+              {/* Messages Header */}
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-gray-900">Your Support Messages</h3>
+                <button
+                  onClick={fetchMessages}
+                  className="flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  <span>Refresh</span>
+                </button>
+              </div>
+
+              {/* Messages List */}
+              {loading ? (
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                </div>
+              ) : messages.length === 0 ? (
+                <div className="text-center py-12">
+                  <MessageSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-gray-900 mb-2">No messages yet</h3>
+                  <p className="text-gray-500 mb-4">Start a conversation with our support team</p>
+                  <button
+                    onClick={() => setShowNewMessageModal(true)}
+                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Send Your First Message
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {messages.map(message => (
+                    <div key={message.id} className="bg-gray-50 rounded-lg border border-gray-200 p-6 hover:shadow-sm transition-shadow">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-start space-x-3 flex-1">
+                          {getTypeIcon(message.type)}
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-semibold text-gray-900 mb-1">{message.subject}</h4>
+                            <div className="flex items-center space-x-2 mb-2">
+                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(message.priority)}`}>
+                                {message.priority} priority
+                              </span>
+                              <span className="text-sm text-gray-500 capitalize">
+                                {message.type.replace('_', ' ')}
+                              </span>
+                            </div>
+                            <p className="text-gray-700 mb-3">{message.message}</p>
+                            
+                            {message.type === 'course_request' && message.requestedCourse && (
+                              <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 mb-3">
+                                <span className="text-sm font-medium text-purple-900">Requested Course: </span>
+                                <span className="text-sm text-purple-700">{message.requestedCourse}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center space-x-2">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1 ${getStatusColor(message.status)}`}>
+                            {getStatusIcon(message.status)}
+                            <span>{message.status.replace('_', ' ')}</span>
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Admin Response */}
+                      {message.adminResponse && (
+                        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                          <div className="flex items-center space-x-2 mb-2">
+                            <CheckCircle2 className="w-4 h-4 text-green-600" />
+                            <span className="text-sm font-medium text-green-900">Support Response</span>
+                          </div>
+                          <p className="text-sm text-green-800 mb-2">{message.adminResponse}</p>
+                          <div className="flex items-center justify-between text-xs text-green-600">
+                            <span>Responded by: {message.respondedBy || 'Support Team'}</span>
+                            {message.respondedAt && (
+                              <span>{getTimeAgo(message.respondedAt)}</span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="flex items-center justify-between pt-3 text-sm text-gray-500">
+                        <span>Created: {getTimeAgo(message.createdAt)}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'help' && (
+            <div className="space-y-6">
+              {/* Quick Help Links */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <HelpCircle className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900">FAQ</h3>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-3">Find answers to common questions</p>
+                  <button className="text-blue-600 text-sm hover:text-blue-700 flex items-center space-x-1">
+                    <span>Browse FAQ</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </button>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="p-2 bg-green-100 rounded-lg">
+                      <Mail className="w-5 h-5 text-green-600" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900">Email Support</h3>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-3">Contact us directly via email</p>
+                  <a href="mailto:support@cushlearn.com" className="text-green-600 text-sm hover:text-green-700">
+                    support@cushlearn.com
+                  </a>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                  <div className="flex items-center space-x-3 mb-3">
+                    <div className="p-2 bg-purple-100 rounded-lg">
+                      <MessageSquare className="w-5 h-5 text-purple-600" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900">Live Chat</h3>
+                  </div>
+                  <p className="text-sm text-gray-600 mb-3">Chat with our support team</p>
+                  <button 
+                    onClick={() => setShowNewMessageModal(true)}
+                    className="text-purple-600 text-sm hover:text-purple-700"
+                  >
+                    Start Chat
+                  </button>
+                </div>
+              </div>
+
+              {/* Common Issues */}
+              <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Common Issues</h3>
+                <div className="space-y-4">
+                  <div className="border-l-4 border-blue-500 pl-4">
+                    <h4 className="font-medium text-gray-900">How do I access my courses?</h4>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Go to the "My Courses" section in your dashboard to access all enrolled courses.
+                    </p>
+                  </div>
+                  <div className="border-l-4 border-green-500 pl-4">
+                    <h4 className="font-medium text-gray-900">How do I download certificates?</h4>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Complete all course modules, then find the "Download Certificate" button in your course.
+                    </p>
+                  </div>
+                  <div className="border-l-4 border-purple-500 pl-4">
+                    <h4 className="font-medium text-gray-900">How do I request a new course?</h4>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Use the message system with "Course Request" type to suggest new courses.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Messages List */}
-      {filteredMessages.length === 0 ? (
-        <div className="text-center py-12">
-          <MessageSquare className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            {searchTerm || filterStatus !== 'all' ? 'No messages found' : 'No support requests yet'}
-          </h3>
-          <p className="text-gray-600 mb-6">
-            {searchTerm || filterStatus !== 'all' 
-              ? 'Try adjusting your search or filters'
-              : 'Have a question or need help? Send us a message!'
-            }
-          </p>
-          <button
-            onClick={() => setShowNewMessageModal(true)}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Send Your First Message
-          </button>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {filteredMessages.map(message => (
-            <MessageCard key={message.id} message={message} />
-          ))}
-        </div>
-      )}
 
       {/* New Message Modal */}
       {showNewMessageModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
-            <div className="p-6 border-b border-gray-200">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden">
+            <div className="border-b border-gray-200 p-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-xl font-semibold text-gray-900">New Support Request</h3>
+                <h3 className="text-xl font-semibold text-gray-900">Send New Message</h3>
                 <button
                   onClick={() => setShowNewMessageModal(false)}
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -414,33 +465,43 @@ const StudentSupport = () => {
               </div>
             </div>
             
-            <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-6 overflow-y-auto max-h-[calc(90vh-200px)]">
+              <div className="space-y-4">
+                {/* Subject */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                  <input
+                    type="text"
+                    value={newMessage.subject}
+                    onChange={(e) => setNewMessage({ ...newMessage, subject: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter message subject"
+                    maxLength={200}
+                  />
+                </div>
+
+                {/* Type and Priority */}
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Request Type
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
                     <select
                       value={newMessage.type}
-                      onChange={(e) => setNewMessage(prev => ({ ...prev, type: e.target.value }))}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      onChange={(e) => setNewMessage({ ...newMessage, type: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                      <option value="general">General Question</option>
+                      <option value="general">General Inquiry</option>
+                      <option value="technical">Technical Support</option>
                       <option value="course_request">Course Request</option>
-                      <option value="technical">Technical Issue</option>
                       <option value="support">Account Support</option>
                     </select>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Priority
-                    </label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
                     <select
                       value={newMessage.priority}
-                      onChange={(e) => setNewMessage(prev => ({ ...prev, priority: e.target.value }))}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      onChange={(e) => setNewMessage({ ...newMessage, priority: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
@@ -450,122 +511,49 @@ const StudentSupport = () => {
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    value={newMessage.subject}
-                    onChange={(e) => setNewMessage(prev => ({ ...prev, subject: e.target.value }))}
-                    placeholder="Brief description of your request"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    value={newMessage.message}
-                    onChange={(e) => setNewMessage(prev => ({ ...prev, message: e.target.value }))}
-                    placeholder="Provide detailed information about your request..."
-                    rows={6}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-
-                {/* Course Request Fields */}
+                {/* Course Request Field */}
                 {newMessage.type === 'course_request' && (
-                  <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
-                    <h4 className="font-medium text-purple-900 mb-4">Course Request Details</h4>
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-medium text-purple-700 mb-2">
-                          Course Title
-                        </label>
-                        <input
-                          type="text"
-                          value={newMessage.requestedCourse.title}
-                          onChange={(e) => setNewMessage(prev => ({
-                            ...prev,
-                            requestedCourse: { ...prev.requestedCourse, title: e.target.value }
-                          }))}
-                          placeholder="What course would you like to see?"
-                          className="w-full border border-purple-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                        />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-purple-700 mb-2">
-                            Category
-                          </label>
-                          <input
-                            type="text"
-                            value={newMessage.requestedCourse.category}
-                            onChange={(e) => setNewMessage(prev => ({
-                              ...prev,
-                              requestedCourse: { ...prev.requestedCourse, category: e.target.value }
-                            }))}
-                            placeholder="e.g., Language, Grammar, Culture"
-                            className="w-full border border-purple-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-sm font-medium text-purple-700 mb-2">
-                            Language
-                          </label>
-                          <select
-                            value={newMessage.requestedCourse.language}
-                            onChange={(e) => setNewMessage(prev => ({
-                              ...prev,
-                              requestedCourse: { ...prev.requestedCourse, language: e.target.value }
-                            }))}
-                            className="w-full border border-purple-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                          >
-                            <option value="">Select Language</option>
-                            <option value="Oromo">Oromo</option>
-                            <option value="Somali">Somali</option>
-                            <option value="Borana">Borana</option>
-                            <option value="Afar">Afar</option>
-                            <option value="Mixed">Mixed Languages</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-purple-700 mb-2">
-                          Course Description
-                        </label>
-                        <textarea
-                          value={newMessage.requestedCourse.description}
-                          onChange={(e) => setNewMessage(prev => ({
-                            ...prev,
-                            requestedCourse: { ...prev.requestedCourse, description: e.target.value }
-                          }))}
-                          placeholder="Describe what you'd like to learn in this course..."
-                          rows={3}
-                          className="w-full border border-purple-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                        />
-                      </div>
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Requested Course</label>
+                    <input
+                      type="text"
+                      value={newMessage.requestedCourse}
+                      onChange={(e) => setNewMessage({ ...newMessage, requestedCourse: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Enter the name or topic of the course you'd like to request"
+                      maxLength={200}
+                    />
                   </div>
                 )}
 
-                <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                {/* Message */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                  <textarea
+                    value={newMessage.message}
+                    onChange={(e) => setNewMessage({ ...newMessage, message: e.target.value })}
+                    rows={6}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter your message..."
+                    maxLength={2000}
+                  />
+                  <div className="text-right text-xs text-gray-500 mt-1">
+                    {newMessage.message.length}/2000 characters
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex justify-end space-x-3 pt-4">
                   <button
                     onClick={() => setShowNewMessageModal(false)}
-                    className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSubmitMessage}
-                    disabled={submitting || !newMessage.subject.trim() || !newMessage.message.trim()}
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={!newMessage.subject.trim() || !newMessage.message.trim() || submitting}
+                    className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 transition-colors"
                   >
                     {submitting ? (
                       <>

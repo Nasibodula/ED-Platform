@@ -29,7 +29,7 @@ const StudentCourses = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [showEnrollModal, setShowEnrollModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const [activeTab, setActiveTab] = useState('enrolled'); // enrolled, available
+  const [activeTab, setActiveTab] = useState('enrolled'); 
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -49,8 +49,25 @@ const StudentCourses = () => {
         const response = await studentAPI.getEnrolledCourses();
         setEnrolledCourses(response.data.data.courses);
       } else {
-        const response = await courseAPI.getAllCourses({ page: 1, limit: 50 });
-        setAvailableCourses(response.data.data.courses);
+        // Fetch all available courses that are published
+        const response = await courseAPI.getAllCourses({ 
+          page: 1, 
+          limit: 50,
+          isPublished: true 
+        });
+        
+        // Get enrolled course IDs
+        const enrolledResponse = await studentAPI.getEnrolledCourses();
+        const enrolledCourseIds = enrolledResponse.data.data.courses.map(
+          enrollment => enrollment.courseId._id
+        );
+        
+        // Filter out already enrolled courses
+        const availableCoursesFiltered = response.data.data.courses.filter(
+          course => !enrolledCourseIds.includes(course._id)
+        );
+        
+        setAvailableCourses(availableCoursesFiltered);
       }
     } catch (error) {
       console.error('Error fetching courses:', error);
@@ -59,6 +76,9 @@ const StudentCourses = () => {
       setLoading(false);
     }
   };
+
+  // Update the fetchCourses function to properly handle available courses
+
 
   const filterCourses = () => {
     const courses = activeTab === 'enrolled' ? enrolledCourses : availableCourses;

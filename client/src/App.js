@@ -69,7 +69,14 @@ function App() {
                 </ProtectedRoute>
               } 
             />
-            
+                        <Route 
+              path="/student/*" 
+              element={
+                <ProtectedRoute requiredRole="student">
+                  <TranslationTool />
+                </ProtectedRoute>
+              } 
+            />
             {/* Default Route */}
             <Route path="/" element={<Navigate to="/login" replace />} />
           </Routes>
