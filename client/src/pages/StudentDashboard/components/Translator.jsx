@@ -13,7 +13,7 @@ const TranslationTool = () => {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
 
-  const API_BASE = 'http://localhost:5000/api';
+  const API_BASE = 'http://localhost:5001/api';
 
   // Fetch dictionary statistics
   useEffect(() => {
