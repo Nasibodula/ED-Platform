@@ -41,40 +41,28 @@ const validateProfileUpdate = [
   body('phoneNumber').optional().trim().isMobilePhone().withMessage('Please provide a valid phone number'),
   body('dateOfBirth').optional().isISO8601().withMessage('Please provide a valid date'),
   body('preferences.language').optional().isIn(['English', 'Oromo', 'Somali', 'Borana']).withMessage('Invalid language selection'),
-  body('preferences.theme').optional().isIn(['light', 'dark']).withMessage('Theme must be light or dark'),
-  body('preferences.notifications').optional().isBoolean().withMessage('Notifications must be boolean'),
+  body('preferences.theme').optional().isIn(['light', 'dark']).withMessage('Invalid theme selection'),
   handleValidationErrors
 ];
 
 // Validate course progress update
 const validateCourseProgress = [
-  param('courseId').custom((value) => {
-    if (!mongoose.Types.ObjectId.isValid(value)) {
-      throw new Error('Invalid course ID format');
-    }
-    return true;
-  }),
-  body('progress').isInt({ min: 0, max: 100 }).withMessage('Progress must be between 0 and 100'),
-  body('lessonId').optional().custom((value) => {
-    if (value && !mongoose.Types.ObjectId.isValid(value)) {
-      throw new Error('Invalid lesson ID format');
-    }
-    return true;
-  }),
+  body('progress').isFloat({ min: 0, max: 100 }).withMessage('Progress must be between 0 and 100'),
+  body('completedLessons').optional().isArray().withMessage('Completed lessons must be an array'),
+  body('timeSpent').optional().isInt({ min: 0 }).withMessage('Time spent must be a positive integer'),
   handleValidationErrors
 ];
 
 // Validate course creation/update
 const validateCourse = [
-  body('title').trim().isLength({ min: 1, max: 100 }).withMessage('Course title is required and must be less than 100 characters'),
-  body('description').trim().isLength({ min: 10, max: 1000 }).withMessage('Description must be between 10 and 1000 characters'),
-  body('instructor').trim().isLength({ min: 1, max: 50 }).withMessage('Instructor name is required and must be less than 50 characters'),
-  body('category').isIn(['Basic Cushite', 'Intermediate Cushite', 'Advanced Cushite', 'Culture', 'Grammar', 'Vocabulary', 'Conversation']).withMessage('Invalid category'),
-  body('level').isIn(['Beginner', 'Intermediate', 'Advanced']).withMessage('Invalid level'),
-  body('language').optional().isIn(['Oromo', 'Somali', 'Borana', 'Mixed']).withMessage('Invalid language'),
-  body('duration').optional().trim().isLength({ min: 1, max: 20 }).withMessage('Duration must be specified'),
+  body('title').trim().isLength({ min: 1, max: 200 }).withMessage('Title is required and must be less than 200 characters'),
+  body('description').trim().isLength({ min: 10, max: 2000 }).withMessage('Description must be between 10 and 2000 characters'),
+  body('instructor').trim().isLength({ min: 1, max: 100 }).withMessage('Instructor name is required and must be less than 100 characters'),
+  body('category').trim().isLength({ min: 1, max: 50 }).withMessage('Category is required'),
+  body('level').isIn(['Beginner', 'Intermediate', 'Advanced']).withMessage('Level must be Beginner, Intermediate, or Advanced'),
+  body('duration').optional().isInt({ min: 1 }).withMessage('Duration must be a positive integer'),
   body('price').optional().isFloat({ min: 0 }).withMessage('Price must be a positive number'),
-  body('isPremium').optional().isBoolean().withMessage('isPremium must be boolean'),
+  body('maxStudents').optional().isInt({ min: 1 }).withMessage('Max students must be a positive integer'),
   body('isPublished').optional().isBoolean().withMessage('isPublished must be boolean'),
   body('tags').optional().isArray().withMessage('Tags must be an array'),
   body('requirements').optional().isArray().withMessage('Requirements must be an array'),
@@ -88,6 +76,14 @@ const validateMessage = [
   body('message').trim().isLength({ min: 10, max: 2000 }).withMessage('Message must be between 10 and 2000 characters'),
   body('type').optional().isIn(['course_request', 'support', 'technical', 'general']).withMessage('Invalid message type'),
   body('priority').optional().isIn(['low', 'medium', 'high', 'urgent']).withMessage('Invalid priority level'),
+  body('requestedCourse').optional().trim().isLength({ min: 1, max: 200 }).withMessage('Requested course name must be less than 200 characters'),
+  handleValidationErrors
+];
+
+//Validate message response
+const validateMessageResponse = [
+  body('adminResponse').trim().isLength({ min: 1, max: 2000 }).withMessage('Admin response is required and must be less than 2000 characters'),
+  body('status').optional().isIn(['pending', 'in_progress', 'resolved', 'closed']).withMessage('Invalid status value'),
   handleValidationErrors
 ];
 
@@ -115,6 +111,7 @@ module.exports = {
   validateCourseProgress,
   validateCourse,
   validateMessage,
+  validateMessageResponse, 
   validateRegistration,
   validateLogin
 };

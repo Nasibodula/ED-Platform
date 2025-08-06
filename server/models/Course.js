@@ -20,7 +20,7 @@ const lessonSchema = new mongoose.Schema({
     }
   },
   duration: {
-    type: String, // e.g., "15:30" for 15 minutes 30 seconds
+    type: String, 
     default: '0:00'
   },
   order: {
@@ -42,6 +42,7 @@ const lessonSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
+
 
 const courseSchema = new mongoose.Schema({
   title: {
