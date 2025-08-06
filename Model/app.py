@@ -401,6 +401,42 @@ def index():
 
 # MAIN - START THE APP
 
+# if __name__ == '__main__':
+#     print("=" * 60)
+#     print(" ENGLISH-OROMO/BORANA TRANSLATION API")
+#     print("=" * 60)
+    
+#     # Initialize translator
+#     initialize_translator()
+    
+#     # Show status
+#     if translator and translator.model:
+#         print(" ML Model: Available (English → Oromo)")
+#     else:
+#         print(" Dictionary Mode: Available (English ↔ Borana)")
+#         if ML_AVAILABLE:
+#             print(" To use ML model: Place 'en-om-model' folder in this directory")
+#         else:
+#             print(" To install ML support: pip install transformers torch")
+    
+#     print(f" Dictionary: {len(DICTIONARY['english_to_borana'])} word pairs loaded")
+#     print("=" * 60)
+#     print(" Server starting at: http://localhost:5001")
+#     print(" API Documentation: http://localhost:5001")
+#     print(" Your React UI can now connect!")
+#     print("=" * 60)
+    
+#     # Run Flask app
+#     app.run(
+#         host='0.0.0.0',
+#         port=5001,
+#         debug=True,
+#         threaded=True
+#     )
+
+
+# At the bottom of your Model/app.py file, change this section:
+
 if __name__ == '__main__':
     print("=" * 60)
     print(" ENGLISH-OROMO/BORANA TRANSLATION API")
@@ -421,15 +457,15 @@ if __name__ == '__main__':
     
     print(f" Dictionary: {len(DICTIONARY['english_to_borana'])} word pairs loaded")
     print("=" * 60)
-    print(" Server starting at: http://localhost:5000")
-    print(" API Documentation: http://localhost:5000")
+    print(" Server starting at: http://localhost:5001")  # Changed from 5000 to 5001
+    print(" API Documentation: http://localhost:5001")   # Changed from 5000 to 5001
     print(" Your React UI can now connect!")
     print("=" * 60)
     
-    # Run Flask app
+    # Run Flask app - CHANGED PORT FROM 5000 TO 5001
     app.run(
         host='0.0.0.0',
-        port=5000,
+        port=5001,  # ← CHANGED FROM 5000 TO 5001
         debug=True,
         threaded=True
     )

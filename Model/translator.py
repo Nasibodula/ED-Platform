@@ -35,11 +35,11 @@ class EnglishToOromoTranslator:
             # Set to evaluation mode
             self.model.eval()
             
-            print("✅ Model loaded successfully!")
-            print(f"📊 Tokenizer vocab size: {len(self.tokenizer)}")
+            print(" Model loaded successfully!")
+            print(f"Tokenizer vocab size: {len(self.tokenizer)}")
             
         except Exception as e:
-            print(f"❌ Error loading model: {e}")
+            print(f"Error loading model: {e}")
             raise
     
     def translate(self, text, max_length=128, num_beams=4):
