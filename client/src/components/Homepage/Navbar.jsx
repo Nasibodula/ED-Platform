@@ -14,7 +14,7 @@ export default function Navbar() {
           
           <nav className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-gray-700 hover:text-teal-600 font-medium">Home</Link>
-            {/* <Link to="/chatbotpage" className="text-gray-700 hover:text-teal-600 font-medium">Chatbot</Link> */}
+            <Link to="/chatbotpage" className="text-gray-700 hover:text-teal-600 font-medium">Chatbot</Link>
             <Link to="/featurespage" className="text-gray-700 hover:text-teal-600 font-medium">Features</Link>
             <Link to="/courses" className="text-gray-700 hover:text-teal-600 font-medium">Courses</Link>
             <Link to="/contact" className="text-gray-700 hover:text-teal-600 font-medium">Contact Us</Link>
@@ -44,7 +44,7 @@ export default function Navbar() {
           <div className="md:hidden bg-white py-2 shadow-inner">
             <div className="container mx-auto px-4 flex flex-col space-y-3">
               <Link to="/" className="text-gray-700 hover:text-teal-600 font-medium py-2">Home</Link>
-              {/* <Link to="/chatbotpage" className="text-gray-700 hover:text-teal-600 font-medium">Chatbot</Link> */}
+              <Link to="/chatbotpage" className="text-gray-700 hover:text-teal-600 font-medium">Chatbot</Link>
               <Link to="/featurespage" className="text-gray-700 hover:text-teal-600 font-medium py-2">Features</Link>
               <Link to="/courses" className="text-gray-700 hover:text-teal-600 font-medium py-2">Courses</Link>
               <Link to="/contact" className="text-gray-700 hover:text-teal-600 font-medium py-2">Contact Us</Link>
