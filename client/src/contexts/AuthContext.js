@@ -58,7 +58,7 @@ const authReducer = (state, action) => {
 };
 
 // API base URL
-const API_BASE_URL = 'http://localhost:5000/api' || 'https://cush-learn-node.onrender.com/api'
+const API_BASE_URL ='https://cush-learn-node.onrender.com/api'
 
 // Axios configuration
 axios.defaults.baseURL = API_BASE_URL;
