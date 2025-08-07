@@ -11,6 +11,7 @@ import CallToAction from '../../components/Homepage/CallToAction'
 // import NewsLetter from '../../components/NewsLetter'
 import Hero from '../../components/Homepage/Hero'
 import Navbar from '../../components/Homepage/Navbar'
+import Footer from '../../components/Footer'
 
 
 export default function Homepage() {
@@ -27,6 +28,7 @@ export default function Homepage() {
       <Testimonies/>
       <Faqs/>
       <CallToAction/>
+      <Footer/>
     </div>
   )
 }

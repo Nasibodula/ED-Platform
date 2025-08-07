@@ -11,6 +11,8 @@ import AboutPage from './pages/Landingpage/AboutPage';
 import TranslationTool from './pages/Landingpage/ChatbotPage';
 import FeaturesPage from './pages/Landingpage/FeaturesPage';
 import Courses from './pages/Landingpage/CoursesPage';
+import { Contact, ContactRound } from 'lucide-react';
+import ContactPage from './pages/Landingpage/ContactPage';
 
 // Protected Route Component
 const ProtectedRoute = ({ children, requiredRole }) => {
@@ -47,6 +49,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/chatbotpage" element = {<TranslationTool/>}/>
             <Route path='/featurespage'  element={<FeaturesPage/>}/>
+            <Route path='/contact'  element={<ContactPage/>}/>
             <Route path='/servicespage'  element={<AboutPage/>}/>
             <Route path="/courses" element = {<Courses/>}/>
             

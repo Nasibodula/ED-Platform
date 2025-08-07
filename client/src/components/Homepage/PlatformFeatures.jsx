@@ -21,15 +21,15 @@ export default function PlatformFeatures() {
                 </button>
                 </div>
                 <div className="bg-gray-100 p-6 rounded-xl shadow">
-                <img src="/api/placeholder/500/300" alt="Dashboard interface" className="rounded-lg w-full" />
+                <img src="/assets/images/studentdashboard.png" alt="Dashboard interface" className="rounded-lg w-full" />
                 </div>
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
                 <div className="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
-                <h3 className="text-xl font-bold text-gray-800 mb-3">Mobile View</h3>
-                <p className="text-gray-600 mb-4">Learn on the go with our responsive mobile design. Download content for offline access on any device.</p>
-                <img src="/api/placeholder/320/200" alt="Mobile interface" className="rounded-lg w-full mb-4" />
+                <h3 className="text-xl font-bold text-gray-800 mb-3">Translator</h3>
+                <p className="text-gray-600 mb-4">Work on the go with our mobile-friendly interface. Translate content anytime, anywhere even offline, right from your device.</p>
+                <img src="/assets/images/translator.png" alt="Mobile interface" className="rounded-lg w-full mb-4 w-3" />
                 <button className="text-teal-700 font-medium flex items-center hover:underline">
                     Learn More 
                     <ChevronDown className="w-4 h-4 ml-1" />
@@ -38,7 +38,7 @@ export default function PlatformFeatures() {
                 <div className="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
                 <h3 className="text-xl font-bold text-gray-800 mb-3">Analytics</h3>
                 <p className="text-gray-600 mb-4">Track your progress with detailed analytics. Set goals and measure your performance against benchmarks.</p>
-                <img src="/api/placeholder/320/200" alt="Analytics interface" className="rounded-lg w-full mb-4" />
+                <img src="/assets/images/studentdashboard.png" alt="Analytics interface" className="rounded-lg w-full mb-4" />
                 <button className="text-teal-700 font-medium flex items-center hover:underline">
                     Learn More 
                     <ChevronDown className="w-4 h-4 ml-1" />
@@ -47,7 +47,7 @@ export default function PlatformFeatures() {
                 <div className="border border-gray-200 rounded-xl p-6 hover:shadow-lg transition">
                 <h3 className="text-xl font-bold text-gray-800 mb-3">Courses</h3>
                 <p className="text-gray-600 mb-4">Explore our extensive library of courses in multiple languages tailored to Cushitic communities.</p>
-                <img src="/api/placeholder/320/200" alt="Courses interface" className="rounded-lg w-full mb-4" />
+                <img src="/assets/images/Courses.png" alt="Courses interface" className="rounded-lg w-full mb-4" />
                 <button className="text-teal-700 font-medium flex items-center hover:underline">
                     Learn More 
                     <ChevronDown className="w-4 h-4 ml-1" />
