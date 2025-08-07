@@ -12,6 +12,7 @@ import CallToAction from '../../components/Homepage/CallToAction'
 import Hero from '../../components/Homepage/Hero'
 import Navbar from '../../components/Homepage/Navbar'
 import Footer from '../../components/Footer'
+import NewsLetter from '../../components/Homepage/NewsLetter'
 
 
 export default function Homepage() {
@@ -28,6 +29,7 @@ export default function Homepage() {
       <Testimonies/>
       <Faqs/>
       <CallToAction/>
+      <NewsLetter/>
       <Footer/>
     </div>
   )

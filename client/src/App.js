@@ -51,7 +51,7 @@ function App() {
             <Route path='/featurespage'  element={<FeaturesPage/>}/>
             <Route path='/contact'  element={<ContactPage/>}/>
             <Route path='/servicespage'  element={<AboutPage/>}/>
-            <Route path="/courses" element = {<Courses/>}/>
+            <Route path="/courses" element ={<Courses/>}/>
             
             {/* Admin Routes */}
             <Route 
