@@ -9,20 +9,20 @@ dotenv.config();
 const seedDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
-    console.log('✅ Connected to MongoDB');
+    console.log(' Connected to MongoDB');
 
     // Clear existing data (optional)
     const clearData = process.argv.includes('--clear');
     if (clearData) {
       await Course.deleteMany({});
       await Message.deleteMany({});
-      console.log('🗑️  Cleared existing data');
+      console.log('  Cleared existing data');
     }
 
     // Get admin user
     const admin = await User.findOne({ role: 'admin' });
     if (!admin) {
-      console.log('❌ No admin found. Please run seedAdmin.js first');
+      console.log(' No admin found. Please run seedAdmin.js first');
       return;
     }
 
@@ -106,7 +106,7 @@ const seedDatabase = async () => {
     ];
 
     const createdCourses = await Course.insertMany(courses);
-    console.log(`✅ Created ${createdCourses.length} courses`);
+    console.log(` Created ${createdCourses.length} courses`);
 
     // Create sample students
     const students = [
@@ -137,7 +137,7 @@ const seedDatabase = async () => {
     ];
 
     const createdStudents = await User.insertMany(students);
-    console.log(`✅ Created ${createdStudents.length} students`);
+    console.log(` Created ${createdStudents.length} students`);
 
     // Enroll students in courses
     for (let i = 0; i < createdStudents.length; i++) {
@@ -148,7 +148,7 @@ const seedDatabase = async () => {
       await student.enrollInCourse(course._id);
       await course.enrollStudent(student._id);
       
-      console.log(`📚 Enrolled ${student.name} in ${course.title}`);
+      console.log(` Enrolled ${student.name} in ${course.title}`);
     }
 
     // Create sample messages
@@ -170,19 +170,19 @@ const seedDatabase = async () => {
     ];
 
     await Message.insertMany(messages);
-    console.log(`✅ Created ${messages.length} sample messages`);
+    console.log(` Created ${messages.length} sample messages`);
 
-    console.log('\n🎉 Database seeding completed successfully!');
-    console.log('\n📊 Summary:');
+    console.log('\n Database seeding completed successfully!');
+    console.log('\n Summary:');
     console.log(`- Courses: ${createdCourses.length}`);
     console.log(`- Students: ${createdStudents.length}`);
     console.log(`- Messages: ${messages.length}`);
     
   } catch (error) {
-    console.error('❌ Seeding error:', error);
+    console.error(' Seeding error:', error);
   } finally {
     await mongoose.disconnect();
-    console.log('🔌 Disconnected from MongoDB');
+    console.log(' Disconnected from MongoDB');
   }
 };
 
