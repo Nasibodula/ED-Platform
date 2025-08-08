@@ -45,10 +45,10 @@ const seedAdmin = async () => {
     });
 
     await admin.save();
-    console.log('✅ Admin user created successfully');
-    console.log('📧 Email: admin@cushite.com');
-    console.log('🔑 Password: admin123456');
-    console.log('⚠️  Please change the password after first login');
+    console.log(' Admin user created successfully');
+    console.log(' Email: admin@cushite.com');
+    console.log(' Password: admin123456');
+    console.log('  Please change the password after first login');
 
     // Create some sample courses
     const sampleCourses = [
@@ -169,7 +169,7 @@ const seedAdmin = async () => {
     ];
 
     const createdCourses = await Course.insertMany(sampleCourses);
-    console.log(`✅ Created ${createdCourses.length} sample courses`);
+    console.log(` Created ${createdCourses.length} sample courses`);
 
     // Create sample students
     const sampleStudents = [
@@ -212,7 +212,7 @@ const seedAdmin = async () => {
     ];
 
     const createdStudents = await User.insertMany(sampleStudents);
-    console.log(`✅ Created ${createdStudents.length} sample students`);
+    console.log(` Created ${createdStudents.length} sample students`);
 
     // Enroll some students in courses
     for (let i = 0; i < Math.min(createdStudents.length, createdCourses.length); i++) {
@@ -238,7 +238,7 @@ const seedAdmin = async () => {
       await course.save();
     }
 
-    console.log('✅ Enrolled students in sample courses');
+    console.log(' Enrolled students in sample courses');
 
     // Create sample messages
     const sampleMessages = [
@@ -281,15 +281,15 @@ const seedAdmin = async () => {
     ];
 
     const createdMessages = await Message.insertMany(sampleMessages);
-    console.log(`✅ Created ${createdMessages.length} sample messages`);
+    console.log(` Created ${createdMessages.length} sample messages`);
 
-    console.log('\n🎉 Database seeding completed successfully!');
-    console.log('\n📋 Summary:');
+    console.log('\n Database seeding completed successfully!');
+    console.log('\n Summary:');
     console.log(`   • 1 Admin user created`);
     console.log(`   • ${createdStudents.length} Sample students created`);
     console.log(`   • ${createdCourses.length} Sample courses created`);
     console.log(`   • ${createdMessages.length} Sample messages created`);
-    console.log('\n🔐 Login Credentials:');
+    console.log('\n Login Credentials:');
     console.log('   Admin:');
     console.log('   Email: admin@cushite.com');
     console.log('   Password: admin123456');
@@ -299,20 +299,20 @@ const seedAdmin = async () => {
       console.log(`   Password: student123`);
     });
     
-    console.log('\n⚠️  SECURITY NOTICE:');
+    console.log('\n  SECURITY NOTICE:');
     console.log('   Please change all default passwords in production!');
     console.log('   Consider enabling 2FA for admin accounts.');
     
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error seeding database:', error);
+    console.error(' Error seeding database:', error);
     process.exit(1);
   }
 };
 
 // Handle script execution
 if (require.main === module) {
-  console.log('🌱 Starting database seeding...\n');
+  console.log(' Starting database seeding...\n');
   seedAdmin();
 }
 

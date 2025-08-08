@@ -13,7 +13,7 @@ const TranslationTool = () => {
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
 
-  const API_BASE = 'https://ed-platform.onrender.com/api || http://localhost:5001/api';
+  const API_BASE = 'https://ed-platform.onrender.com/api' || 'http://localhost:5001/api';
 
   // Fetch dictionary statistics
   useEffect(() => {

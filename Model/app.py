@@ -5,6 +5,7 @@ import json
 import re
 from difflib import get_close_matches
 import logging
+import cors from 'cors';
 
 # Try to import transformers for ML model
 try:
@@ -85,8 +86,13 @@ class EnglishToOromoTranslator:
 
 # FLASK API
 
-app = Flask(__name__)
-CORS(app)  # Enable CORS for React frontend
+# app = Flask(__name__)
+# CORS(app)  
+app.use(cors({
+  origin: 'https://cush-learn.onrender.com',
+  methods: 'GET,POST,PUT,DELETE',
+  credentials: true
+}));
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
