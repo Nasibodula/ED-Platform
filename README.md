@@ -6,7 +6,7 @@
 
 > Breaking language barriers in education for Cushitic communities through accessible, multilingual learning powered by AI translation.
 
-![CushLearn Banner](client/assets/images/hero.png)
+![CushLearn Banner](client/public/assets/images/hero.png)
 
 ## 🌟 Overview
 
