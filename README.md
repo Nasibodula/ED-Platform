@@ -6,7 +6,7 @@
 
 > Breaking language barriers in education for Cushitic communities through accessible, multilingual learning powered by AI translation.
 
-![CushLearn Banner](assets/images/platform-preview.png)
+![CushLearn Banner](client/assets/images/hero.png)
 
 ## 🌟 Overview
 
@@ -70,7 +70,7 @@ Before you begin, ensure you have the following installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/cushlearn.git
+git clone https://github.com/Nasibodula/ED-Platform.git
 cd cushlearn
 ```
 
@@ -183,13 +183,13 @@ cushlearn/
 ## 🎨 Screenshots
 
 ### Landing Page
-![Landing Page](assets/images/hero.png)
+![Landing Page](client/assets/images/hero.png)
 
 ### Student Dashboard
-![Student Dashboard](assets/images/studentdashboard.png)
+![Student Dashboard](client/assets/images/studentdashboard.png)
 
 ### Translation Tool
-![Translation Tool](assets/images/translator.png)
+![Translation Tool](client/assets/images/translator.png)
 
 ### Course Catalog
 ![Courses](assets/images/Courses.png)
@@ -311,20 +311,19 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👥 Authors
 
 **Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-- Email: your.email@example.com
+- GitHub: [@nasibodula](https://github.com/Nasibodula)
+- LinkedIn: [Nasibo Dula Chudo](https://www.linkedin.com/in/nasibo-dula-chudo-8a1296241)
+- Email: nasibochudo@gmail.com
 
 ## 🙏 Acknowledgments
 
-- MLH Fellowship for inspiration and support
 - Cushitic language communities for feedback
 - Open source libraries and frameworks used
 - YouTube creators for educational content
 
 ## 📞 Support
 
-For support, email support@cushlearn.com or join our community channels.
+For support, email nasibochudo@gmail.com or reach out on linkedin https://www.linkedin.com/in/nasibo-dula-chudo-8a1296241.
 
 ## ⭐ Show Your Support
 
@@ -332,4 +331,4 @@ Give a ⭐️ if this project helped you or you find it interesting!
 
 ---
 
-**Built with ❤️ for MLH Fellowship Application**
+**Built with ❤️ for Less Privileged community**
