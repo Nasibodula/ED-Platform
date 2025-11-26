@@ -1,70 +1,335 @@
-# Getting Started with Create React App
+# CushLearn - Multilingual Education Platform
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-v16+-green.svg)](https://nodejs.org)
+[![React](https://img.shields.io/badge/React-18.0-blue.svg)](https://reactjs.org)
 
-## Available Scripts
+> Breaking language barriers in education for Cushitic communities through accessible, multilingual learning powered by AI translation.
 
-In the project directory, you can run:
+![CushLearn Banner](assets/images/platform-preview.png)
 
-### `npm start`
+## 🌟 Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+CushLearn is a comprehensive educational platform designed to bridge the language gap for Cushitic language communities (Oromo, Somali, Borana). The platform provides multilingual course content, real-time translation tools, and an intuitive learning management system that works both online and offline.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Key Features
 
-### `npm test`
+- 🌍 **Multilingual Support** - Seamless learning in Oromo, Somali, Borana, and English
+- 🤖 **AI-Powered Translation** - Real-time English ↔ Borana/Oromo translation tool
+- 📱 **Offline Functionality** - Access educational content without internet connectivity
+- 👨‍🎓 **Dual Dashboards** - Separate interfaces for students and administrators
+- 📊 **Progress Tracking** - Comprehensive analytics and learning metrics
+- 💬 **Support System** - Built-in messaging for student-admin communication
+- 🎥 **Video Integration** - YouTube-integrated course content with playlist support
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🚀 Live Demo
 
-### `npm run build`
+- **Frontend**: [https://cushlearn.vercel.app](https://cush-learn.onrender.com/)
+- **Backend API**: [https://cush-learn-node.onrender.com](https://cush-learn-node.onrender.com)
+- **Translation Service**: [https://ed-platform.onrender.com](https://ed-platform.onrender.com)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Demo Credentials
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**Admin Access:**
+- Email: `admin@cushite.com`
+- Password: `admin123456`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Student Access:**
+- Register a new account or use the admin panel to create test accounts
 
-### `npm run eject`
+## 🛠️ Tech Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Frontend
+- **React 18** - UI framework
+- **Tailwind CSS** - Styling
+- **React Router** - Navigation
+- **Lucide React** - Icon library
+- **Axios** - HTTP client
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **MongoDB** - Database
+- **JWT** - Authentication
+- **Bcrypt** - Password hashing
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Translation Service
+- **Python Flask** - Translation API
+- **Custom Dictionary** - Borana/Oromo translations
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📋 Prerequisites
 
-## Learn More
+Before you begin, ensure you have the following installed:
+- Node.js (v16 or higher)
+- MongoDB (v4.4 or higher)
+- Python 3.8+ (for translation service)
+- npm or yarn
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 💻 Installation & Setup
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 1. Clone the Repository
 
-### Code Splitting
+```bash
+git clone https://github.com/yourusername/cushlearn.git
+cd cushlearn
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 2. Backend Setup
 
-### Analyzing the Bundle Size
+```bash
+cd server
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Create a `.env` file in the server directory:
 
-### Making a Progressive Web App
+```env
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/cushlearn
+JWT_SECRET=your_super_secret_jwt_key_here_change_this
+NODE_ENV=development
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Start the backend server:
 
-### Advanced Configuration
+```bash
+npm run dev
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 3. Frontend Setup
 
-### Deployment
+```bash
+cd client
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Create a `.env` file in the client directory:
 
-### `npm run build` fails to minify
+```env
+REACT_APP_API_URL=http://localhost:5000/api
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Start the frontend development server:
+
+```bash
+npm start
+```
+
+### 4. Translation Service Setup (Optional)
+
+The translation service is hosted separately. To run it locally:
+
+```bash
+cd translation-service
+pip install -r requirements.txt
+python app.py
+```
+
+## 🎯 Project Structure
+
+```
+cushlearn/
+├── client/                 # React frontend
+│   ├── public/
+│   ├── src/
+│   │   ├── components/    # Reusable components
+│   │   │   ├── Auth/      # Authentication components
+│   │   │   └── Homepage/  # Landing page components
+│   │   ├── pages/         # Page components
+│   │   │   ├── AdminDashboard/
+│   │   │   ├── StudentDashboard/
+│   │   │   └── Landingpage/
+│   │   ├── contexts/      # React contexts
+│   │   ├── utils/         # Utility functions & API
+│   │   └── data/          # Static data (courses)
+│   └── package.json
+│
+├── server/                # Node.js backend
+│   ├── controllers/       # Route controllers
+│   ├── models/           # MongoDB models
+│   ├── routes/           # API routes
+│   ├── middleware/       # Custom middleware
+│   └── server.js         # Entry point
+│
+└── README.md
+```
+
+## 🔑 Key Features Breakdown
+
+### For Students
+
+- **Course Enrollment** - Browse and enroll in multilingual courses
+- **Progress Tracking** - Monitor learning progress with detailed analytics
+- **Translation Tool** - Access real-time English-Borana translation
+- **Support System** - Submit course requests and get help
+- **Profile Management** - Customize learning preferences
+
+### For Administrators
+
+- **Dashboard Analytics** - Monitor platform-wide statistics
+- **Course Management** - Create, edit, and publish courses
+- **Student Management** - View and manage student accounts
+- **Message Center** - Respond to student inquiries and requests
+- **Activity Monitoring** - Track recent platform activities
+
+### Translation Features
+
+- **Word Translation** - Individual word lookup with autocomplete
+- **Sentence Translation** - Full sentence translation capability
+- **Bidirectional** - English ↔ Borana/Oromo translation
+- **Suggestions** - Smart suggestions for misspelled words
+- **Dictionary Stats** - Live dictionary size statistics
+
+## 🎨 Screenshots
+
+### Landing Page
+![Landing Page](assets/images/hero.png)
+
+### Student Dashboard
+![Student Dashboard](assets/images/studentdashboard.png)
+
+### Translation Tool
+![Translation Tool](assets/images/translator.png)
+
+### Course Catalog
+![Courses](assets/images/Courses.png)
+
+## 🌐 API Endpoints
+
+### Authentication
+```
+POST   /api/auth/register     - Register new student
+POST   /api/auth/login        - Login user
+GET    /api/auth/me           - Get current user
+```
+
+### Courses
+```
+GET    /api/courses           - Get all published courses
+GET    /api/courses/:id       - Get course details
+POST   /api/courses           - Create course (Admin)
+PUT    /api/courses/:id       - Update course (Admin)
+DELETE /api/courses/:id       - Delete course (Admin)
+POST   /api/courses/:id/enroll - Enroll in course
+```
+
+### Students
+```
+GET    /api/student/enrolled-courses  - Get enrolled courses
+GET    /api/student/stats             - Get student statistics
+PUT    /api/student/courses/:id/progress - Update progress
+```
+
+### Messages
+```
+POST   /api/messages          - Create support message
+GET    /api/messages/my       - Get student messages
+GET    /api/messages          - Get all messages (Admin)
+PUT    /api/messages/:id/respond - Respond to message (Admin)
+```
+
+### Translation
+```
+POST   /api/translate         - Translate text
+GET    /api/suggestions       - Get word suggestions
+GET    /api/dictionary        - Get dictionary stats
+```
+
+## 🧪 Testing
+
+### Running Tests
+
+```bash
+# Backend tests
+cd server
+npm test
+
+# Frontend tests
+cd client
+npm test
+```
+
+## 🚢 Deployment
+
+### Frontend (Vercel)
+
+1. Connect your GitHub repository to Vercel
+2. Set environment variables in Vercel dashboard
+3. Deploy with automatic CI/CD
+
+### Backend (Render)
+
+1. Create a new Web Service on Render
+2. Connect your GitHub repository
+3. Set environment variables
+4. Deploy with automatic builds
+
+### Database (MongoDB Atlas)
+
+1. Create a MongoDB Atlas cluster
+2. Whitelist IP addresses
+3. Update connection string in environment variables
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 Code Style
+
+- Follow ESLint configuration for JavaScript
+- Use Prettier for code formatting
+- Write meaningful commit messages
+- Add comments for complex logic
+
+## 🐛 Known Issues
+
+- Translation API may have limited vocabulary coverage
+- Offline mode requires prior content download
+- Some YouTube videos may not load in certain regions
+
+## 🗺️ Roadmap
+
+- [ ] Mobile app development (React Native)
+- [ ] WhatsApp integration for course delivery
+- [ ] Expanded language support (Afar, other Cushitic languages)
+- [ ] AI-powered course recommendations
+- [ ] Certificate generation system
+- [ ] Payment gateway integration
+- [ ] Advanced analytics dashboard
+- [ ] Community forums
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+**Your Name**
+- GitHub: [@yourusername](https://github.com/yourusername)
+- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- Email: your.email@example.com
+
+## 🙏 Acknowledgments
+
+- MLH Fellowship for inspiration and support
+- Cushitic language communities for feedback
+- Open source libraries and frameworks used
+- YouTube creators for educational content
+
+## 📞 Support
+
+For support, email support@cushlearn.com or join our community channels.
+
+## ⭐ Show Your Support
+
+Give a ⭐️ if this project helped you or you find it interesting!
+
+---
+
+**Built with ❤️ for MLH Fellowship Application**
