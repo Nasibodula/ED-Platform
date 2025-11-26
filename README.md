@@ -183,16 +183,16 @@ cushlearn/
 ## 🎨 Screenshots
 
 ### Landing Page
-![Landing Page](client/assets/images/hero.png)
+![Landing Page](client/public/assets/images/hero.png)
 
 ### Student Dashboard
-![Student Dashboard](client/assets/images/studentdashboard.png)
+![Student Dashboard](client/public/assets/images/studentdashboard.png)
 
 ### Translation Tool
-![Translation Tool](client/assets/images/translator.png)
+![Translation Tool](client/public/assets/images/translator.png)
 
 ### Course Catalog
-![Courses](assets/images/Courses.png)
+![Courses](client/public/assets/images/Courses.png)
 
 ## 🌐 API Endpoints
 
